@@ -528,7 +528,7 @@
 
   </div>
 
-  <footer class="foot">freeSAT — Math domain · built from official-style SAT question banks</footer>
+  <footer class="foot">freeSAT v<span id="versionTag"></span> — Math domain · built from official-style SAT question banks · <a href="https://github.com/kktoast/freesat/blob/main/CHANGELOG.md" target="_blank" rel="noopener" style="color:inherit;">changelog</a></footer>
 </div>
 
 <script>
@@ -919,6 +919,7 @@ const DOMAINS = [
   }
 ];
 const DIFFICULTIES = ["Easy","Medium","Hard"];
+const SITE_VERSION = "1.1.0";
 
 /* =========================================================
    STATE
@@ -1392,8 +1393,8 @@ function renderAll(){
 state.activeSkills = new Set(currentDomain().skills);
 rebuildOrder(false);
 renderAll();
+document.getElementById('versionTag').textContent = SITE_VERSION;
 </script>
-  
 
 </body>
 </html>
