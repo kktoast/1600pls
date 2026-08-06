@@ -1,9 +1,18 @@
 # freeSAT — Changelog
 
 All notable changes to this site are logged here so progress is never lost between sessions.
-Repo: https://github.com/kktoast/freesat
+Repo: https://github.com/kktoast/1600pls
 
 ---
+
+## v2.0.0 — Home page, score tracking, recommendations, decluttered UI
+- Restructured navigation to three clean top-level tabs: **Home**, **Math**, **Reading & Writing**
+- New **Home** tab:
+  - Score history chart (custom SVG line/area chart) — log real or practice SAT scores (Math + R&W) over time, stored in the browser via localStorage
+  - Lifetime stats row: latest score, questions answered, lifetime accuracy, questions live
+  - **Recommended Practice** panel — ranks skills by estimated score impact using a weighted heuristic against your actual answer history (also persisted via localStorage), with a one-click "Practice this skill" jump into Math filtered to that exact skill
+- Visual decluttering: removed the graph-paper background texture in favor of a subtle single gradient, merged the sidebar's 4 panels down to 2 (Session + Filters), tightened spacing throughout
+- Answer attempts are now logged persistently (domain, skill, correct/incorrect, timestamp) to power lifetime accuracy + recommendations, separate from the in-session score ring
 
 ## v1.1.0 — Site rebrand + Math domain structure
 - Renamed the site to **freeSAT**, new wordmark and tagline

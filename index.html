@@ -24,7 +24,7 @@
     --correct-bg: #E4F1E9;
     --incorrect: #B23A3A;
     --incorrect-bg: #F6E6E4;
-    --line: #D9D4C7;
+    --line: #E4E0D3;
     --muted: #6B7280;
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'IBM Plex Sans', sans-serif;
@@ -35,356 +35,91 @@
 
   html,body{
     margin:0; padding:0;
-    background: var(--paper);
+    background: radial-gradient(circle at 88% -8%, rgba(185,133,46,0.09), transparent 42%), var(--paper);
     color: var(--ink-deep);
     font-family: var(--sans);
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 28px 28px;
-    background-position: -1px -1px;
-    background-attachment: fixed;
     min-height: 100vh;
   }
 
-  .app{
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 28px 20px 80px;
-  }
+  .app{ max-width: 1180px; margin: 0 auto; padding: 28px 20px 80px; }
 
-  /* ---------- Masthead / wordmark ---------- */
+  /* ---------- Masthead ---------- */
   header.masthead{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    border-bottom: 3px solid var(--ink-deep);
-    padding-bottom: 14px;
-    margin-bottom: 4px;
-    flex-wrap: wrap;
-    gap: 14px;
+    display:flex; align-items:flex-end; justify-content:space-between;
+    padding-bottom: 16px; margin-bottom: 6px; flex-wrap: wrap; gap: 14px;
   }
   .wordmark{
-    font-family: var(--serif);
-    font-weight: 700;
-    font-size: 36px;
-    letter-spacing: -0.01em;
-    color: var(--ink-deep);
-    display:flex;
-    align-items:baseline;
-    gap: 2px;
+    font-family: var(--serif); font-weight: 700; font-size: 32px;
+    letter-spacing: -0.01em; color: var(--ink-deep);
+    display:flex; align-items:baseline; gap: 2px; cursor:pointer;
   }
   .wordmark .free{ color: var(--muted); font-weight: 400; }
   .wordmark .sat{ color: var(--ink-deep); border-bottom: 4px solid var(--gold); padding-bottom: 1px; }
-  .tagline{
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 4px;
-    letter-spacing: 0.02em;
-  }
-  .masthead-sub{
-    font-family: var(--mono);
-    font-size: 12.5px;
-    color: var(--muted);
-    text-align:right;
-  }
+  .tagline{ font-family: var(--mono); font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  .masthead-sub{ font-family: var(--mono); font-size: 12px; color: var(--muted); text-align:right; }
 
-  /* ---------- Primary nav tabs ---------- */
-  .nav-tabs{
-    display:flex;
-    gap: 4px;
-    margin: 0 0 18px;
-    border-bottom: 1px solid var(--line);
-  }
+  /* ---------- Primary nav ---------- */
+  .nav-tabs{ display:flex; gap: 4px; margin: 0 0 26px; border-bottom: 1px solid var(--line); }
   .nav-tab{
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 12px 18px 10px;
-    cursor: pointer;
-    color: var(--muted);
-    border-bottom: 3px solid transparent;
-    display:flex;
-    align-items:center;
-    gap:8px;
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 12px 18px 10px; cursor: pointer; color: var(--muted);
+    border-bottom: 3px solid transparent; display:flex; align-items:center; gap:8px;
     transition: color .12s ease, border-color .12s ease;
-    background:none;
-    border-top:none; border-left:none; border-right:none;
+    background:none; border-top:none; border-left:none; border-right:none;
   }
   .nav-tab:hover{ color: var(--ink-deep); }
   .nav-tab.active{ color: var(--ink-deep); border-bottom-color: var(--gold); font-weight:600; }
   .soon-badge{
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.06em;
-    color: var(--gold);
-    border: 1px solid var(--gold);
-    padding: 2px 6px;
-    border-radius: 20px;
-    text-transform: uppercase;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.06em; color: var(--gold);
+    border: 1px solid var(--gold); padding: 2px 6px; border-radius: 20px; text-transform: uppercase;
   }
 
-  /* ---------- Domain sub-tabs ---------- */
-  .domain-tabs{
-    display:flex;
-    flex-wrap:wrap;
-    gap: 8px;
-    margin-bottom: 22px;
-  }
-  .domain-tab{
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 8px 14px;
-    border: 1px solid var(--line);
-    background: var(--paper-raised);
-    color: var(--ink);
-    cursor: pointer;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    transition: all .12s ease;
-  }
-  .domain-tab:hover{ border-color: var(--ink); }
-  .domain-tab.active{ background: var(--ink-deep); border-color: var(--ink-deep); color: var(--paper-raised); }
-  .domain-tab .dcount{
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 20px;
-    background: var(--gold-soft);
-    color: var(--gold);
-  }
-  .domain-tab.active .dcount{ background: rgba(255,255,255,0.18); color: var(--paper-raised); }
-  .domain-tab.empty .dcount{ background: var(--line); color: var(--muted); }
-  .domain-tab.active.empty .dcount{ background: rgba(255,255,255,0.12); color: var(--paper-raised); }
-
-  /* ---------- Layout ---------- */
-  .layout{
-    display:grid;
-    grid-template-columns: 270px 1fr;
-    gap: 24px;
-    align-items:start;
-  }
-  .layout.single-col{ grid-template-columns: 1fr; }
-  @media (max-width: 860px){
-    .layout{ grid-template-columns: 1fr; }
-  }
-
-  /* ---------- Sidebar ---------- */
-  .panel{
-    background: var(--paper-raised);
-    border: 1px solid var(--line);
-    box-shadow: 0 1px 0 rgba(28,43,74,0.03);
-  }
-  .sidebar .panel{ padding: 18px 18px 20px; margin-bottom: 18px; }
+  /* ---------- Generic panel ---------- */
+  .panel{ background: var(--paper-raised); border: 1px solid var(--line); }
   .panel-title{
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink);
-    font-weight: 600;
-    margin: 0 0 12px;
-    display:flex;
-    align-items:center;
-    gap:8px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink); font-weight: 600; margin: 0 0 14px; display:flex; align-items:center; gap:8px;
   }
-  .panel-title::before{
-    content:"";
-    width:6px; height:6px;
-    background: var(--gold);
-    display:inline-block;
-  }
+  .panel-title::before{ content:""; width:6px; height:6px; background: var(--gold); display:inline-block; }
+  .panel-sub{ font-size: 12.5px; color: var(--muted); margin: -8px 0 16px; line-height:1.5; }
 
-  .filter-group{ margin-bottom: 16px; }
-  .filter-group:last-child{ margin-bottom:0; }
+  /* =========================================================
+     HOME PAGE
+     ========================================================= */
+  .home-hero{ margin-bottom: 26px; }
+  .home-hero .big{ font-family: var(--serif); font-weight:700; font-size: 28px; margin-bottom: 6px; }
+  .home-hero p{ color: var(--muted); font-size: 14.5px; max-width: 560px; margin:0; }
 
-  .chip-row{ display:flex; flex-wrap:wrap; gap:6px; }
-  .chip{
-    font-family: var(--mono);
-    font-size: 11.5px;
-    padding: 6px 10px;
-    border: 1px solid var(--line);
-    background: var(--paper);
-    color: var(--ink);
-    cursor: pointer;
-    user-select:none;
-    transition: all .12s ease;
-    line-height:1.2;
-  }
-  .chip:hover{ border-color: var(--ink); }
-  .chip.active{
-    background: var(--ink-deep);
-    color: var(--paper-raised);
-    border-color: var(--ink-deep);
-  }
-  .chip.diff-easy.active{ background: var(--correct); border-color:var(--correct); }
-  .chip.diff-medium.active{ background: var(--gold); border-color:var(--gold); }
-  .chip.diff-hard.active{ background: var(--incorrect); border-color:var(--incorrect); }
+  .stat-row{ display:grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 26px; }
+  @media (max-width: 760px){ .stat-row{ grid-template-columns: repeat(2,1fr); } }
+  .stat-card{ background: var(--paper-raised); border: 1px solid var(--line); padding: 16px 18px; }
+  .stat-card .lbl{ font-family: var(--mono); font-size: 10px; text-transform:uppercase; letter-spacing:.07em; color: var(--muted); margin-bottom:8px; }
+  .stat-card .val{ font-family: var(--serif); font-weight:700; font-size: 26px; color: var(--ink-deep); }
+  .stat-card .sub{ font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 4px; }
 
-  .skill-list{ display:flex; flex-direction:column; gap:2px; }
-  .skill-item{
-    display:flex; align-items:center; gap:9px;
-    font-size: 13px;
-    padding: 6px 4px;
-    cursor:pointer;
-    border-bottom: 1px dashed transparent;
-  }
-  .skill-item:hover{ background: var(--paper); }
-  .skill-item.disabled{ cursor: default; opacity: 0.5; }
-  .skill-item.disabled:hover{ background: none; }
-  .skill-item input{ accent-color: var(--ink-deep); width:14px; height:14px; flex-shrink:0; }
-  .skill-item .count{ margin-left:auto; font-family:var(--mono); font-size:11px; color: var(--muted); }
+  .home-grid{ display:grid; grid-template-columns: 1.35fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
+  @media (max-width: 900px){ .home-grid{ grid-template-columns: 1fr; } }
 
-  .reset-btn{
-    width:100%;
-    margin-top: 14px;
-    background: transparent;
-    border: 1px solid var(--ink-deep);
-    color: var(--ink-deep);
-    font-family: var(--mono);
-    font-size: 11.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 8px;
-    cursor: pointer;
-  }
-  .reset-btn:hover{ background: var(--ink-deep); color: var(--paper-raised); }
+  .chart-panel{ padding: 22px 24px 20px; }
+  .chart-wrap{ width:100%; overflow-x:auto; }
+  .chart-wrap svg{ width:100%; height:auto; min-width: 460px; }
 
-  /* ---------- Progress ring panel ---------- */
-  .score-panel{ text-align:center; }
-  .score-ring-wrap{ position:relative; width:120px; height:120px; margin: 6px auto 12px; }
-  .score-ring-wrap svg{ transform: rotate(-90deg); }
-  .score-ring-bg{ fill:none; stroke: var(--line); stroke-width: 9; }
-  .score-ring-fg{ fill:none; stroke: var(--gold); stroke-width: 9; stroke-linecap: butt; transition: stroke-dashoffset .4s ease; }
-  .score-ring-label{
-    position:absolute; inset:0;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  .score-form{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;
+    margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line);
   }
-  .score-ring-label .num{ font-family: var(--serif); font-weight:700; font-size: 26px; color: var(--ink-deep); }
-  .score-ring-label .lbl{ font-family: var(--mono); font-size: 9.5px; color: var(--muted); text-transform:uppercase; letter-spacing:.08em; }
-  .score-stats{
-    display:flex; justify-content:space-between;
-    font-family: var(--mono); font-size: 11.5px; color: var(--muted);
-    border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px;
+  .field{ display:flex; flex-direction:column; gap:5px; }
+  .field label{ font-family: var(--mono); font-size: 10px; text-transform:uppercase; letter-spacing:.06em; color: var(--muted); }
+  .field input{
+    font-family: var(--mono); font-size: 14px; padding: 9px 10px;
+    border: 1.5px solid var(--line); background: var(--paper); color: var(--ink-deep); width: 110px;
   }
-  .score-stats b{ color: var(--ink-deep); font-size: 13px; }
-
-  /* ---------- Main / question area ---------- */
-  .main .panel{ padding: 0; }
-  .qcard{ padding: 28px 32px 30px; }
-  @media (max-width: 560px){ .qcard{ padding: 20px 16px 24px; } }
-
-  .qcard-topline{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom: 18px; flex-wrap:wrap; gap:10px;
-  }
-  .qcard-meta{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .tag{
-    font-family: var(--mono);
-    font-size: 10.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    padding: 4px 9px;
-    border: 1px solid var(--line);
-    color: var(--ink);
-    background: var(--paper);
-  }
-  .tag.difficulty-Easy{ border-color: var(--correct); color: var(--correct); }
-  .tag.difficulty-Medium{ border-color: var(--gold); color: var(--gold); }
-  .tag.difficulty-Hard{ border-color: var(--incorrect); color: var(--incorrect); }
-  .qid{ font-family: var(--mono); font-size: 11px; color: var(--muted); }
-
-  .qposition{ font-family: var(--mono); font-size: 12px; color: var(--muted); }
-
-  .qbody{
-    font-family: var(--serif);
-    font-size: 19px;
-    line-height: 1.55;
-    color: var(--ink-deep);
-    margin-bottom: 22px;
-  }
-  .qbody p{ margin: 0 0 10px; }
-
-  .qfigure{
-    display:flex; justify-content:center;
-    margin: 8px 0 20px;
-    padding: 14px;
-    background: var(--paper);
-    border: 1px solid var(--line);
-  }
-  .qfigure table{ border-collapse: collapse; font-family: var(--mono); font-size: 15px; }
-  .qfigure td, .qfigure th{ border: 1px solid var(--ink); padding: 6px 16px; text-align:center; }
-  .qfigure th{ background: var(--gold-soft); }
-
-  /* ---------- Answer choices (scantron) ---------- */
-  .choices{ display:flex; flex-direction:column; gap:10px; margin-bottom: 22px; }
-  .choice{
-    display:flex; align-items:center; gap:14px;
-    padding: 13px 16px;
-    border: 1px solid var(--line);
-    background: var(--paper-raised);
-    cursor:pointer;
-    transition: border-color .12s ease, background .12s ease;
-  }
-  .choice:hover{ border-color: var(--ink); }
-  .bubble{
-    flex-shrink:0;
-    width: 30px; height:30px; border-radius:50%;
-    border: 2px solid var(--ink-deep);
-    display:flex; align-items:center; justify-content:center;
-    font-family: var(--mono); font-weight:600; font-size:13px; color: var(--ink-deep);
-    background: var(--paper-raised);
-    transition: all .12s ease;
-  }
-  .choice.selected .bubble{ background: var(--ink-deep); color: var(--paper-raised); }
-  .choice-text{ font-size: 16px; color: var(--ink-deep); }
-  .choice-text .katex{ font-size: 1.05em; }
-
-  .choice.correct{ border-color: var(--correct); background: var(--correct-bg); }
-  .choice.correct .bubble{ background: var(--correct); border-color: var(--correct); color:#fff; }
-  .choice.incorrect{ border-color: var(--incorrect); background: var(--incorrect-bg); }
-  .choice.incorrect .bubble{ background: var(--incorrect); border-color: var(--incorrect); color:#fff; }
-  .choice.disabled{ cursor:default; }
-  .choice.disabled:hover{ border-color: inherit; }
-
-  .gridin-wrap{ margin-bottom: 22px; }
-  .gridin-label{ font-family: var(--mono); font-size:11px; color: var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
-  .gridin-input{
-    font-family: var(--mono);
-    font-size: 20px;
-    padding: 12px 14px;
-    border: 2px solid var(--ink-deep);
-    width: 220px;
-    background: var(--paper-raised);
-    color: var(--ink-deep);
-  }
-  .gridin-input:focus{ outline: 2px solid var(--gold); outline-offset:2px; }
-  .gridin-input.correct{ border-color: var(--correct); background: var(--correct-bg); }
-  .gridin-input.incorrect{ border-color: var(--incorrect); background: var(--incorrect-bg); }
-  .gridin-hint{ font-size:12px; color:var(--muted); margin-top:6px; }
-
-  /* ---------- Controls ---------- */
-  .qcontrols{
-    display:flex; align-items:center; justify-content:space-between;
-    border-top: 1px solid var(--line);
-    padding: 16px 32px;
-    background: var(--paper);
-    flex-wrap:wrap; gap:12px;
-  }
-  @media (max-width:560px){ .qcontrols{ padding:14px 16px; } }
+  .field input:focus{ outline:none; border-color: var(--gold); }
+  .field.wide input{ width: 140px; }
   .btn{
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 10px 18px;
-    border: 1px solid var(--ink-deep);
-    background: var(--paper-raised);
-    color: var(--ink-deep);
-    cursor: pointer;
-    transition: all .12s ease;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 10px 16px; border: 1px solid var(--ink-deep); background: var(--paper-raised); color: var(--ink-deep);
+    cursor: pointer; transition: all .12s ease; white-space:nowrap;
   }
   .btn:hover:not(:disabled){ background: var(--ink-deep); color: var(--paper-raised); }
   .btn:disabled{ opacity:0.35; cursor:not-allowed; }
@@ -392,143 +127,199 @@
   .btn.primary:hover:not(:disabled){ background: var(--ink); }
   .btn.gold{ border-color: var(--gold); color:var(--gold); }
   .btn.gold:hover:not(:disabled){ background:var(--gold); color:#fff; }
+  .btn.ghost{ border-color: var(--line); color: var(--muted); }
+  .btn.ghost:hover:not(:disabled){ background: var(--incorrect); border-color:var(--incorrect); color:#fff; }
+  .btn.small{ padding:6px 10px; font-size:10.5px; }
+
+  .score-table-wrap{ margin-top: 14px; max-height: 160px; overflow-y:auto; }
+  .score-table{ width:100%; border-collapse:collapse; font-size: 12.5px; }
+  .score-table th{
+    font-family: var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.05em;
+    color: var(--muted); text-align:left; padding: 6px 8px; border-bottom: 1px solid var(--line);
+    position:sticky; top:0; background:var(--paper-raised);
+  }
+  .score-table td{ padding: 7px 8px; border-bottom: 1px solid var(--line); font-family: var(--mono); }
+  .score-table .del{ cursor:pointer; color: var(--incorrect); font-weight:600; }
+  .score-table-empty{ font-size:12.5px; color: var(--muted); padding: 10px 2px; }
+
+  .rec-panel{ padding: 22px 22px 20px; }
+  .rec-card{
+    border: 1px solid var(--line); padding: 14px 16px; margin-bottom: 12px; background: var(--paper);
+  }
+  .rec-card:last-child{ margin-bottom:0; }
+  .rec-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px; }
+  .rec-skill{ font-family: var(--serif); font-weight:600; font-size: 15px; color: var(--ink-deep); line-height:1.3; }
+  .rec-domain{ font-family: var(--mono); font-size: 9.5px; color: var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-top:3px; }
+  .rec-gain{ text-align:right; flex-shrink:0; }
+  .rec-gain .num{ font-family: var(--serif); font-weight:700; font-size: 20px; color: var(--gold); }
+  .rec-gain .lbl{ font-family: var(--mono); font-size: 8.5px; color: var(--muted); text-transform:uppercase; }
+  .rec-meta{ display:flex; align-items:center; gap:10px; margin-bottom: 10px; }
+  .rec-accuracy-bar{ flex:1; height:6px; background: var(--line); overflow:hidden; }
+  .rec-accuracy-bar .fill{ height:100%; background: var(--gold); }
+  .rec-accuracy-text{ font-family: var(--mono); font-size: 10.5px; color: var(--muted); white-space:nowrap; }
+  .rec-disclaimer{ font-size: 11px; color: var(--muted); margin-top: 14px; line-height:1.5; border-top:1px solid var(--line); padding-top:12px; }
+
+  .rec-empty{ text-align:center; padding: 30px 10px; color: var(--muted); font-size: 13px; }
+
+  /* =========================================================
+     MATH PAGE
+     ========================================================= */
+  .domain-tabs{ display:flex; flex-wrap:wrap; gap: 8px; margin-bottom: 22px; }
+  .domain-tab{
+    font-family: var(--mono); font-size: 12px; padding: 8px 14px; border: 1px solid var(--line);
+    background: var(--paper-raised); color: var(--ink); cursor: pointer; display:flex; align-items:center; gap:8px;
+    transition: all .12s ease;
+  }
+  .domain-tab:hover{ border-color: var(--ink); }
+  .domain-tab.active{ background: var(--ink-deep); border-color: var(--ink-deep); color: var(--paper-raised); }
+  .domain-tab .dcount{ font-size: 10px; padding: 1px 6px; border-radius: 20px; background: var(--gold-soft); color: var(--gold); }
+  .domain-tab.active .dcount{ background: rgba(255,255,255,0.18); color: var(--paper-raised); }
+  .domain-tab.empty .dcount{ background: var(--line); color: var(--muted); }
+  .domain-tab.active.empty .dcount{ background: rgba(255,255,255,0.12); color: var(--paper-raised); }
+
+  .layout{ display:grid; grid-template-columns: 250px 1fr; gap: 20px; align-items:start; }
+  .layout.single-col{ grid-template-columns: 1fr; }
+  @media (max-width: 860px){ .layout{ grid-template-columns: 1fr; } }
+
+  .sidebar .panel{ padding: 18px; margin-bottom: 16px; }
+
+  .score-ring-wrap{ position:relative; width:96px; height:96px; margin: 4px auto 12px; }
+  .score-ring-wrap svg{ transform: rotate(-90deg); }
+  .score-ring-bg{ fill:none; stroke: var(--line); stroke-width: 8; }
+  .score-ring-fg{ fill:none; stroke: var(--gold); stroke-width: 8; stroke-linecap: butt; transition: stroke-dashoffset .4s ease; }
+  .score-ring-label{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .score-ring-label .num{ font-family: var(--serif); font-weight:700; font-size: 21px; color: var(--ink-deep); }
+  .score-ring-label .lbl{ font-family: var(--mono); font-size: 8.5px; color: var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  .score-stats{
+    display:flex; justify-content:space-between; font-family: var(--mono); font-size: 11px; color: var(--muted);
+    border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px;
+  }
+  .score-stats b{ color: var(--ink-deep); font-size: 12.5px; }
+
+  .filter-divider{ border-top: 1px solid var(--line); margin: 16px 0; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{
+    font-family: var(--mono); font-size: 11px; padding: 6px 10px; border: 1px solid var(--line);
+    background: var(--paper); color: var(--ink); cursor: pointer; user-select:none; transition: all .12s ease;
+  }
+  .chip:hover{ border-color: var(--ink); }
+  .chip.active{ background: var(--ink-deep); color: var(--paper-raised); border-color: var(--ink-deep); }
+  .chip.diff-easy.active{ background: var(--correct); border-color:var(--correct); }
+  .chip.diff-medium.active{ background: var(--gold); border-color:var(--gold); }
+  .chip.diff-hard.active{ background: var(--incorrect); border-color:var(--incorrect); }
+
+  .skill-list{ display:flex; flex-direction:column; gap:2px; margin-top:10px; }
+  .skill-item{ display:flex; align-items:center; gap:9px; font-size: 12.5px; padding: 6px 4px; cursor:pointer; }
+  .skill-item:hover{ background: var(--paper); }
+  .skill-item.disabled{ cursor: default; opacity: 0.5; }
+  .skill-item.disabled:hover{ background: none; }
+  .skill-item input{ accent-color: var(--ink-deep); width:13px; height:13px; flex-shrink:0; }
+  .skill-item .count{ margin-left:auto; font-family:var(--mono); font-size:10.5px; color: var(--muted); }
+
+  .reset-btn{
+    width:100%; margin-top: 14px; background: transparent; border: 1px solid var(--ink-deep); color: var(--ink-deep);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px; cursor: pointer;
+  }
+  .reset-btn:hover{ background: var(--ink-deep); color: var(--paper-raised); }
+
+  .main .panel{ padding: 0; }
+  .qcard{ padding: 26px 30px 28px; }
+  @media (max-width: 560px){ .qcard{ padding: 20px 16px 24px; } }
+  .qcard-topline{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 18px; flex-wrap:wrap; gap:10px; }
+  .qcard-meta{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .tag{
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 4px 9px; border: 1px solid var(--line); color: var(--ink); background: var(--paper);
+  }
+  .tag.difficulty-Easy{ border-color: var(--correct); color: var(--correct); }
+  .tag.difficulty-Medium{ border-color: var(--gold); color: var(--gold); }
+  .tag.difficulty-Hard{ border-color: var(--incorrect); color: var(--incorrect); }
+  .qid{ font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .qposition{ font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+
+  .qbody{ font-family: var(--serif); font-size: 18.5px; line-height: 1.55; color: var(--ink-deep); margin-bottom: 20px; }
+
+  .qfigure{ display:flex; justify-content:center; margin: 8px 0 20px; padding: 14px; background: var(--paper); border: 1px solid var(--line); }
+  .qfigure table{ border-collapse: collapse; font-family: var(--mono); font-size: 14px; }
+  .qfigure td, .qfigure th{ border: 1px solid var(--ink); padding: 6px 14px; text-align:center; }
+  .qfigure th{ background: var(--gold-soft); }
+
+  .choices{ display:flex; flex-direction:column; gap:9px; margin-bottom: 20px; }
+  .choice{ display:flex; align-items:center; gap:13px; padding: 12px 15px; border: 1px solid var(--line); background: var(--paper-raised); cursor:pointer; transition: border-color .12s ease, background .12s ease; }
+  .choice:hover{ border-color: var(--ink); }
+  .bubble{
+    flex-shrink:0; width: 28px; height:28px; border-radius:50%; border: 2px solid var(--ink-deep);
+    display:flex; align-items:center; justify-content:center; font-family: var(--mono); font-weight:600; font-size:12.5px;
+    color: var(--ink-deep); background: var(--paper-raised); transition: all .12s ease;
+  }
+  .choice.selected .bubble{ background: var(--ink-deep); color: var(--paper-raised); }
+  .choice-text{ font-size: 15.5px; color: var(--ink-deep); }
+  .choice.correct{ border-color: var(--correct); background: var(--correct-bg); }
+  .choice.correct .bubble{ background: var(--correct); border-color: var(--correct); color:#fff; }
+  .choice.incorrect{ border-color: var(--incorrect); background: var(--incorrect-bg); }
+  .choice.incorrect .bubble{ background: var(--incorrect); border-color: var(--incorrect); color:#fff; }
+  .choice.disabled{ cursor:default; }
+  .choice.disabled:hover{ border-color: inherit; }
+
+  .gridin-wrap{ margin-bottom: 20px; }
+  .gridin-label{ font-family: var(--mono); font-size:10.5px; color: var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
+  .gridin-input{ font-family: var(--mono); font-size: 19px; padding: 11px 13px; border: 2px solid var(--ink-deep); width: 210px; background: var(--paper-raised); color: var(--ink-deep); }
+  .gridin-input:focus{ outline: 2px solid var(--gold); outline-offset:2px; }
+  .gridin-input.correct{ border-color: var(--correct); background: var(--correct-bg); }
+  .gridin-input.incorrect{ border-color: var(--incorrect); background: var(--incorrect-bg); }
+  .gridin-hint{ font-size:11.5px; color:var(--muted); margin-top:6px; }
+
+  .qcontrols{ display:flex; align-items:center; justify-content:space-between; border-top: 1px solid var(--line); padding: 15px 30px; background: var(--paper); flex-wrap:wrap; gap:12px; }
+  @media (max-width:560px){ .qcontrols{ padding:14px 16px; } }
   .nav-btns{ display:flex; gap:8px; }
 
-  /* ---------- Rationale ---------- */
-  .rationale{
-    margin: 0 32px 22px;
-    padding: 16px 18px;
-    border-left: 4px solid var(--ink-deep);
-    background: var(--paper);
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: var(--ink);
-  }
+  .rationale{ margin: 0 30px 20px; padding: 15px 17px; border-left: 4px solid var(--ink-deep); background: var(--paper); font-size: 14px; line-height: 1.6; color: var(--ink); }
   .rationale.correct-panel{ border-left-color: var(--correct); }
   .rationale.incorrect-panel{ border-left-color: var(--incorrect); }
-  .rationale-head{
-    font-family: var(--mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-    font-weight:600;
-  }
+  .rationale-head{ font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; font-weight:600; }
   .rationale-head.correct-text{ color: var(--correct); }
   .rationale-head.incorrect-text{ color: var(--incorrect); }
   @media (max-width:560px){ .rationale{ margin:0 16px 18px; } }
 
-  /* ---------- Empty / summary / construction states ---------- */
-  .empty-state, .summary-state, .construction-state{
-    padding: 60px 30px;
-    text-align:center;
-  }
-  .empty-state .big, .summary-state .big, .construction-state .big{
-    font-family: var(--serif); font-size: 24px; font-weight:700; margin-bottom:10px;
-  }
+  .empty-state, .summary-state, .construction-state{ padding: 56px 30px; text-align:center; }
+  .empty-state .big, .summary-state .big, .construction-state .big{ font-family: var(--serif); font-size: 23px; font-weight:700; margin-bottom:10px; }
   .empty-state p, .summary-state p, .construction-state p{ color: var(--muted); font-size:14px; max-width: 480px; margin:0 auto; }
-
-  .construction-state{ padding: 90px 30px; }
+  .construction-state{ padding: 80px 30px; }
   .construction-mark{
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid var(--gold);
-    display:inline-block;
-    padding: 4px 12px;
-    margin-bottom: 18px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+    border: 1px solid var(--gold); display:inline-block; padding: 4px 12px; margin-bottom: 18px;
   }
-  .construction-skills{
-    display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
-    margin: 22px 0 6px;
-    max-width: 560px; margin-left:auto; margin-right:auto;
-  }
+  .construction-skills{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin: 20px 0 4px; max-width: 560px; margin-left:auto; margin-right:auto; }
   .construction-skills .tag{ background: var(--paper-raised); }
 
-  .summary-table{ width:100%; border-collapse:collapse; margin-top:20px; text-align:left; }
-  .summary-table th{
-    font-family: var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
-    color: var(--muted); border-bottom: 2px solid var(--ink-deep); padding: 8px 10px;
-  }
+  .summary-table{ width:100%; border-collapse:collapse; margin-top:18px; text-align:left; }
+  .summary-table th{ font-family: var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.05em; color: var(--muted); border-bottom: 2px solid var(--ink-deep); padding: 8px 10px; }
   .summary-table td{ padding: 9px 10px; border-bottom: 1px solid var(--line); font-size:13.5px; }
-  .summary-table tr:hover td{ background: var(--paper); }
-  .pill{
-    display:inline-block; font-family:var(--mono); font-size:11px; padding:2px 8px;
-    border-radius: 20px; font-weight:600;
-  }
+  .pill{ display:inline-block; font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius: 20px; font-weight:600; }
   .pill.good{ background: var(--correct-bg); color: var(--correct); }
   .pill.bad{ background: var(--incorrect-bg); color: var(--incorrect); }
   .pill.mid{ background: var(--gold-soft); color: var(--gold); }
 
-  footer.foot{
-    text-align:center; margin-top: 40px;
-    font-family: var(--mono); font-size: 11px; color: var(--muted);
-  }
+  footer.foot{ text-align:center; margin-top: 44px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  footer.foot a{ color: inherit; }
 </style>
 </head>
 <body>
 
 <div class="app">
-
   <header class="masthead">
     <div>
-      <div class="wordmark"><span class="free">free</span><span class="sat">SAT</span></div>
+      <div class="wordmark" id="logoHome"><span class="free">free</span><span class="sat">SAT</span></div>
       <div class="tagline">Real SAT-style questions. No login, no cost.</div>
     </div>
     <div class="masthead-sub" id="headerMeta"></div>
   </header>
 
   <nav class="nav-tabs" id="primaryTabs"></nav>
-  <div id="domainTabsWrap"></div>
 
-  <div class="layout" id="layoutWrap">
+  <div id="pageRoot"></div>
 
-    <aside class="sidebar" id="sidebarWrap">
-
-      <div class="panel score-panel">
-        <div class="panel-title">Session Score</div>
-        <div class="score-ring-wrap">
-          <svg width="120" height="120" viewBox="0 0 120 120">
-            <circle class="score-ring-bg" cx="60" cy="60" r="52"></circle>
-            <circle class="score-ring-fg" id="scoreRing" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"></circle>
-          </svg>
-          <div class="score-ring-label">
-            <div class="num" id="scorePct">—</div>
-            <div class="lbl">Correct</div>
-          </div>
-        </div>
-        <div class="score-stats">
-          <div>Answered<br><b id="statAnswered">0</b></div>
-          <div>Correct<br><b id="statCorrect">0</b></div>
-          <div>In Set<br><b id="statTotal">0</b></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-title">Difficulty</div>
-        <div class="chip-row" id="difficultyChips"></div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-title">Skill</div>
-        <div class="skill-list" id="skillList"></div>
-      </div>
-
-      <div class="panel">
-        <button class="reset-btn" id="resetFiltersBtn">Reset filters &amp; score</button>
-      </div>
-
-    </aside>
-
-    <main class="main">
-      <div class="panel" id="mainPanel"></div>
-    </main>
-
-  </div>
-
-  <footer class="foot">freeSAT v<span id="versionTag"></span> — Math domain · built from official-style SAT question banks · <a href="https://github.com/kktoast/freesat/blob/main/CHANGELOG.md" target="_blank" rel="noopener" style="color:inherit;">changelog</a></footer>
+  <footer class="foot">freeSAT v<span id="versionTag"></span> — <a href="https://github.com/kktoast/1600pls/blob/main/CHANGELOG.md" target="_blank" rel="noopener">changelog</a></footer>
 </div>
 
 <script>
@@ -536,396 +327,230 @@
    QUESTION BANK — ALGEBRA (populated)
    ========================================================= */
 const ALGEBRA_QUESTIONS = [
-{
-  id:"7eea65e3", skill:"Systems of two linear equations in two variables", difficulty:"Medium", type:"mcq",
+{ id:"7eea65e3", skill:"Systems of two linear equations in two variables", difficulty:"Medium", type:"mcq",
   question:"Which of the following systems of linear equations has no solution?",
-  choices:[
-    {k:"A", t:"\\(y = 6x + 3\\)<br>\\(y = 6x + 9\\)"},
-    {k:"B", t:"\\(y = 10\\)<br>\\(y = 10x + 10\\)"},
-    {k:"C", t:"\\(y = 14x + 14\\)<br>\\(y = 10x + 14\\)"},
-    {k:"D", t:"\\(x = 3\\)<br>\\(y = 10\\)"}
-  ],
+  choices:[{k:"A",t:"\\(y = 6x + 3\\)<br>\\(y = 6x + 9\\)"},{k:"B",t:"\\(y = 10\\)<br>\\(y = 10x + 10\\)"},{k:"C",t:"\\(y = 14x + 14\\)<br>\\(y = 10x + 14\\)"},{k:"D",t:"\\(x = 3\\)<br>\\(y = 10\\)"}],
   answer:"A",
   rationale:"A system of two linear equations has no solution if the graphs of the lines are distinct and parallel — same slope, different y-intercepts. In choice A, both lines have slope 6, but y-intercepts 3 and 9, which are different. So the system has no solution. Choice B has a solution (0, 10). Choice C has a solution (0, 14). Choice D has a solution (3, 10)."
 },
-{
-  id:"2eb1f9e1", skill:"Linear equations in two variables", difficulty:"Medium", type:"grid",
+{ id:"2eb1f9e1", skill:"Linear equations in two variables", difficulty:"Medium", type:"grid",
   question:"A line in the \\(xy\\)-plane has a slope of \\(9\\) and passes through the point \\((0,-5)\\). The equation \\(y = px + r\\) defines the line, where \\(p\\) and \\(r\\) are constants. What is the value of \\(p\\)?",
   accept:["9"],
   rationale:"In \\(y = px + r\\), \\(p\\) represents the slope. Since the line has a slope of 9, \\(p = 9\\)."
 },
-{
-  id:"377a6aa4", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
+{ id:"377a6aa4", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
   question:"If \\(3x - 8 = 7\\), what is the value of \\(3x + 8\\)?",
-  choices:[
-    {k:"A", t:"\\(-1\\)"},
-    {k:"B", t:"\\(5\\)"},
-    {k:"C", t:"\\(13\\)"},
-    {k:"D", t:"\\(23\\)"}
-  ],
+  choices:[{k:"A",t:"\\(-1\\)"},{k:"B",t:"\\(5\\)"},{k:"C",t:"\\(13\\)"},{k:"D",t:"\\(23\\)"}],
   answer:"D",
   rationale:"Adding 8 to both sides of \\(3x-8=7\\) gives \\(3x=15\\). Adding 8 again gives \\(3x+8=23\\). Choice B is the value of \\(x\\), not \\(3x+8\\)."
 },
-{
-  id:"5c1751d6", skill:"Linear functions", difficulty:"Medium", type:"grid",
+{ id:"5c1751d6", skill:"Linear functions", difficulty:"Medium", type:"grid",
   question:"The table shows four values of \\(x\\) and their corresponding values of \\(f(x)\\). There is a linear relationship between \\(x\\) and \\(f(x)\\) that is defined by the equation \\(f(x) = mx - 28\\), where \\(m\\) is a constant. What is the value of \\(m\\)?",
   figure:`<table><tr><th>x</th><td>10</td><td>15</td><td>20</td><td>25</td></tr><tr><th>f(x)</th><td>82</td><td>137</td><td>192</td><td>247</td></tr></table>`,
   accept:["11"],
   rationale:"When \\(x=10\\), \\(f(x)=82\\). Substituting: \\(82 = m(10) - 28\\), so \\(110 = 10m\\), giving \\(m = 11\\)."
 },
-{
-  id:"e056a89f", skill:"Systems of two linear equations in two variables", difficulty:"Easy", type:"mcq",
+{ id:"e056a89f", skill:"Systems of two linear equations in two variables", difficulty:"Easy", type:"mcq",
   question:"\\(x = 5\\)<br>\\(y = x - 8\\)<br><br>Which of the following points \\((x, y)\\) is the solution to the given system of equations in the \\(xy\\)-plane?",
-  choices:[
-    {k:"A", t:"\\((0, 0)\\)"},
-    {k:"B", t:"\\((5, -3)\\)"},
-    {k:"C", t:"\\((5, -8)\\)"},
-    {k:"D", t:"\\((5, 8)\\)"}
-  ],
+  choices:[{k:"A",t:"\\((0, 0)\\)"},{k:"B",t:"\\((5, -3)\\)"},{k:"C",t:"\\((5, -8)\\)"},{k:"D",t:"\\((5, 8)\\)"}],
   answer:"B",
   rationale:"Substituting \\(x=5\\) into \\(y = x-8\\) gives \\(y = -3\\). So the solution is \\((5,-3)\\)."
 },
-{
-  id:"89dc2564", skill:"Linear equations in two variables", difficulty:"Easy", type:"mcq",
+{ id:"89dc2564", skill:"Linear equations in two variables", difficulty:"Easy", type:"mcq",
   question:"Line \\(k\\) is defined by \\(y = 3x + 15\\). Line \\(j\\) is perpendicular to line \\(k\\) in the \\(xy\\)-plane. What is the slope of line \\(j\\)?",
-  choices:[
-    {k:"A", t:"\\(-\\dfrac{1}{3}\\)"},
-    {k:"B", t:"\\(-\\dfrac{1}{12}\\)"},
-    {k:"C", t:"\\(-\\dfrac{1}{18}\\)"},
-    {k:"D", t:"\\(-\\dfrac{1}{45}\\)"}
-  ],
+  choices:[{k:"A",t:"\\(-\\dfrac{1}{3}\\)"},{k:"B",t:"\\(-\\dfrac{1}{12}\\)"},{k:"C",t:"\\(-\\dfrac{1}{18}\\)"},{k:"D",t:"\\(-\\dfrac{1}{45}\\)"}],
   answer:"A",
   rationale:"Perpendicular lines have slopes that are opposite reciprocals. The slope of line \\(k\\) is 3, so the slope of line \\(j\\) is \\(-\\frac{1}{3}\\)."
 },
-{
-  id:"80f346ea", skill:"Linear equations in two variables", difficulty:"Medium", type:"grid",
+{ id:"80f346ea", skill:"Linear equations in two variables", difficulty:"Medium", type:"grid",
   question:"A line passes through the points \\((4, 6)\\) and \\((15, 24)\\) in the \\(xy\\)-plane. What is the slope of the line?",
   accept:["18/11","1.636","1.64","1.63"],
   rationale:"Slope \\(= \\dfrac{24-6}{15-4} = \\dfrac{18}{11} \\approx 1.636\\)."
 },
-{
-  id:"cdcfc854", skill:"Systems of two linear equations in two variables", difficulty:"Medium", type:"mcq",
+{ id:"cdcfc854", skill:"Systems of two linear equations in two variables", difficulty:"Medium", type:"mcq",
   question:"\\(y - 9x = 13\\)<br>\\(5x = 2y\\)<br><br>What is the solution \\((x, y)\\) to the given system of equations?",
-  choices:[
-    {k:"A", t:"\\(\\left(\\dfrac{5}{2}, 1\\right)\\)"},
-    {k:"B", t:"\\(\\left(1, \\dfrac{2}{5}\\right)\\)"},
-    {k:"C", t:"\\((-2, -5)\\)"},
-    {k:"D", t:"\\((-5, -2)\\)"}
-  ],
+  choices:[{k:"A",t:"\\(\\left(\\dfrac{5}{2}, 1\\right)\\)"},{k:"B",t:"\\(\\left(1, \\dfrac{2}{5}\\right)\\)"},{k:"C",t:"\\((-2, -5)\\)"},{k:"D",t:"\\((-5, -2)\\)"}],
   answer:"C",
   rationale:"From the first equation, \\(y = 9x+13\\). Substituting into \\(5x = 2y\\) gives \\(5x = 2(9x+13) = 18x+26\\), so \\(-13x = 26\\), meaning \\(x=-2\\). Then \\(y = 9(-2)+13 = -5\\). Solution: \\((-2,-5)\\)."
 },
-{
-  id:"6ee5222e", skill:"Linear equations in two variables", difficulty:"Hard", type:"mcq",
+{ id:"6ee5222e", skill:"Linear equations in two variables", difficulty:"Hard", type:"mcq",
   question:"\\(\\dfrac{3}{5}x + \\dfrac{3}{4}y = 7\\)<br><br>Which table gives three values of \\(x\\) and their corresponding values of \\(y\\) for the given equation?",
-  figure:`
-  <div style="display:flex; gap:22px; flex-wrap:wrap; justify-content:center;">
-    <div><b style="font-family:var(--mono); font-size:12px;">A</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>113/20</td></tr><tr><td>2</td><td>101/20</td></tr><tr><td>4</td><td>77/20</td></tr></table></div>
-    <div><b style="font-family:var(--mono); font-size:12px;">B</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>47/5</td></tr><tr><td>2</td><td>44/5</td></tr><tr><td>4</td><td>38/5</td></tr></table></div>
-    <div><b style="font-family:var(--mono); font-size:12px;">C</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>148/15</td></tr><tr><td>2</td><td>136/15</td></tr><tr><td>4</td><td>112/15</td></tr></table></div>
-    <div><b style="font-family:var(--mono); font-size:12px;">D</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>128/15</td></tr><tr><td>2</td><td>116/15</td></tr><tr><td>4</td><td>92/15</td></tr></table></div>
-  </div>`,
-  choices:[
-    {k:"A", t:"Table A"},
-    {k:"B", t:"Table B"},
-    {k:"C", t:"Table C"},
-    {k:"D", t:"Table D"}
-  ],
+  figure:`<div style="display:flex; gap:22px; flex-wrap:wrap; justify-content:center;"><div><b style="font-family:var(--mono); font-size:12px;">A</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>113/20</td></tr><tr><td>2</td><td>101/20</td></tr><tr><td>4</td><td>77/20</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">B</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>47/5</td></tr><tr><td>2</td><td>44/5</td></tr><tr><td>4</td><td>38/5</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">C</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>148/15</td></tr><tr><td>2</td><td>136/15</td></tr><tr><td>4</td><td>112/15</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">D</b><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>128/15</td></tr><tr><td>2</td><td>116/15</td></tr><tr><td>4</td><td>92/15</td></tr></table></div></div>`,
+  choices:[{k:"A",t:"Table A"},{k:"B",t:"Table B"},{k:"C",t:"Table C"},{k:"D",t:"Table D"}],
   answer:"D",
   rationale:"Substituting \\(x=1,2,4\\) into \\(\\frac{3}{5}x+\\frac{3}{4}y=7\\) and solving for \\(y\\) each time gives \\(y = \\frac{128}{15}, \\frac{116}{15}, \\frac{92}{15}\\) respectively — matching Table D."
 },
-{
-  id:"4e00f906", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
+{ id:"4e00f906", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
   question:"What value of \\(p\\) satisfies the equation \\(5p + 180 = 250\\)?",
-  choices:[
-    {k:"A", t:"\\(14\\)"},
-    {k:"B", t:"\\(65\\)"},
-    {k:"C", t:"\\(86\\)"},
-    {k:"D", t:"\\(250\\)"}
-  ],
+  choices:[{k:"A",t:"\\(14\\)"},{k:"B",t:"\\(65\\)"},{k:"C",t:"\\(86\\)"},{k:"D",t:"\\(250\\)"}],
   answer:"A",
   rationale:"Subtracting 180 from both sides gives \\(5p = 70\\). Dividing by 5 gives \\(p = 14\\)."
 },
-{
-  id:"dadfd136", skill:"Linear functions", difficulty:"Easy", type:"mcq",
+{ id:"dadfd136", skill:"Linear functions", difficulty:"Easy", type:"mcq",
   question:"In the linear function \\(h\\), \\(h(0) = 41\\) and \\(h(1) = 40\\). Which equation defines \\(h\\)?",
-  choices:[
-    {k:"A", t:"\\(h(x) = -x + 41\\)"},
-    {k:"B", t:"\\(h(x) = -x\\)"},
-    {k:"C", t:"\\(h(x) = -41x\\)"},
-    {k:"D", t:"\\(h(x) = -41\\)"}
-  ],
+  choices:[{k:"A",t:"\\(h(x) = -x + 41\\)"},{k:"B",t:"\\(h(x) = -x\\)"},{k:"C",t:"\\(h(x) = -41x\\)"},{k:"D",t:"\\(h(x) = -41\\)"}],
   answer:"A",
   rationale:"An equation for a linear function is \\(h(x)=ax+b\\). Since \\(h(0)=41\\), \\(b=41\\). Since \\(h(1)=40\\), \\(40 = a(1)+41\\), so \\(a=-1\\). Thus \\(h(x) = -x+41\\)."
 },
-{
-  id:"7d5a0f4e", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"grid",
+{ id:"7d5a0f4e", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"grid",
   question:"In August, a car dealer completed 15 more than 3 times the number of sales the car dealer completed in September. In August and September, the car dealer completed 363 sales. How many sales did the car dealer complete in September?",
   accept:["87"],
   rationale:"Let \\(x\\) = September sales, so August sales \\(= 3x+15\\). Then \\(x + (3x+15) = 363\\), so \\(4x = 348\\), giving \\(x = 87\\)."
 },
-{
-  id:"b0e72232", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"mcq",
+{ id:"b0e72232", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"mcq",
   question:"One of the two equations in a system of linear equations is given: \\(3x = 36y - 45\\). The system has no solution. Which equation could be the second equation in this system?",
-  choices:[
-    {k:"A", t:"\\(x = 4y\\)"},
-    {k:"B", t:"\\(\\dfrac{1}{3}x = 4y\\)"},
-    {k:"C", t:"\\(x = 12y - 15\\)"},
-    {k:"D", t:"\\(\\dfrac{1}{3}x = 12y - 15\\)"}
-  ],
+  choices:[{k:"A",t:"\\(x = 4y\\)"},{k:"B",t:"\\(\\dfrac{1}{3}x = 4y\\)"},{k:"C",t:"\\(x = 12y - 15\\)"},{k:"D",t:"\\(\\dfrac{1}{3}x = 12y - 15\\)"}],
   answer:"B",
   rationale:"Rewriting the given equation: \\(y = \\frac{1}{12}x + \\frac{5}{4}\\), slope \\(\\frac{1}{12}\\), y-intercept \\(\\frac{5}{4}\\). Choice B rewrites to \\(y=\\frac{1}{12}x\\) — same slope, different y-intercept (0 instead of 5/4) — so no solution."
 },
-{
-  id:"38f53fa4", skill:"Linear equations in two variables", difficulty:"Medium", type:"mcq",
+{ id:"38f53fa4", skill:"Linear equations in two variables", difficulty:"Medium", type:"mcq",
   question:"Figure A and figure B are both regular polygons. The sum of the perimeter of figure A and the perimeter of figure B is 63 inches. The equation \\(3x + 6y = 63\\) represents this situation, where \\(x\\) is the number of sides of figure A and \\(y\\) is the number of sides of figure B. Which statement is the best interpretation of \\(6\\) in this context?",
-  choices:[
-    {k:"A", t:"Each side of figure B has a length of 6 inches."},
-    {k:"B", t:"The number of sides of figure B is 6."},
-    {k:"C", t:"Each side of figure A has a length of 6 inches."},
-    {k:"D", t:"The number of sides of figure A is 6."}
-  ],
+  choices:[{k:"A",t:"Each side of figure B has a length of 6 inches."},{k:"B",t:"The number of sides of figure B is 6."},{k:"C",t:"Each side of figure A has a length of 6 inches."},{k:"D",t:"The number of sides of figure A is 6."}],
   answer:"A",
   rationale:"\\(3x\\) and \\(6y\\) represent the perimeters of figure A and figure B. Since \\(6y\\) is the perimeter of figure B and \\(y\\) is its number of sides, each side of figure B has a length of 6 inches."
 },
-{
-  id:"1fd0aec2", skill:"Systems of two linear equations in two variables", difficulty:"Easy", type:"mcq",
+{ id:"1fd0aec2", skill:"Systems of two linear equations in two variables", difficulty:"Easy", type:"mcq",
   question:"The graph of a system of linear equations is shown. What is the solution \\((x, y)\\) to the system?",
-  figure:`<svg width="320" height="320" viewBox="0 0 320 320">
-    <line x1="20" y1="160" x2="300" y2="160" stroke="#8B94A6" stroke-width="1"/>
-    <line x1="160" y1="20" x2="160" y2="300" stroke="#8B94A6" stroke-width="1"/>
-    ${Array.from({length:15},(_,i)=>`<line x1="${20+i*20}" y1="20" x2="${20+i*20}" y2="300" stroke="#E3DFD2" stroke-width="1"/>`).join('')}
-    ${Array.from({length:15},(_,i)=>`<line x1="20" y1="${20+i*20}" x2="300" y2="${20+i*20}" stroke="#E3DFD2" stroke-width="1"/>`).join('')}
-    <line x1="20" y1="90" x2="230" y2="300" stroke="#1C2B4A" stroke-width="2.5"/>
-    <line x1="0" y1="300" x2="180" y2="120" stroke="#1C2B4A" stroke-width="2.5"/>
-    <circle cx="100" cy="220" r="5" fill="#B9852E"/>
-    <text x="108" y="216" font-family="IBM Plex Mono" font-size="12" fill="#1C2B4A">(-4,-3)</text>
-  </svg>`,
-  choices:[
-    {k:"A", t:"\\((0, -7)\\)"},
-    {k:"B", t:"\\((0, -3)\\)"},
-    {k:"C", t:"\\((-4, -3)\\)"},
-    {k:"D", t:"\\((-4, 0)\\)"}
-  ],
+  figure:`<svg width="300" height="300" viewBox="0 0 320 320"><line x1="20" y1="160" x2="300" y2="160" stroke="#8B94A6" stroke-width="1"/><line x1="160" y1="20" x2="160" y2="300" stroke="#8B94A6" stroke-width="1"/>${Array.from({length:15},(_,i)=>`<line x1="${20+i*20}" y1="20" x2="${20+i*20}" y2="300" stroke="#E3DFD2" stroke-width="1"/>`).join('')}${Array.from({length:15},(_,i)=>`<line x1="20" y1="${20+i*20}" x2="300" y2="${20+i*20}" stroke="#E3DFD2" stroke-width="1"/>`).join('')}<line x1="20" y1="90" x2="230" y2="300" stroke="#1C2B4A" stroke-width="2.5"/><line x1="0" y1="300" x2="180" y2="120" stroke="#1C2B4A" stroke-width="2.5"/><circle cx="100" cy="220" r="5" fill="#B9852E"/><text x="108" y="216" font-family="IBM Plex Mono" font-size="12" fill="#1C2B4A">(-4,-3)</text></svg>`,
+  choices:[{k:"A",t:"\\((0, -7)\\)"},{k:"B",t:"\\((0, -3)\\)"},{k:"C",t:"\\((-4, -3)\\)"},{k:"D",t:"\\((-4, 0)\\)"}],
   answer:"C",
   rationale:"The solution to a system of linear equations shown graphically is the point where the two lines intersect. On the graph, the lines intersect at \\((-4,-3)\\)."
 },
-{
-  id:"43e69f94", skill:"Linear functions", difficulty:"Hard", type:"mcq",
+{ id:"43e69f94", skill:"Linear functions", difficulty:"Hard", type:"mcq",
   question:"The cost of renting a backhoe for up to 10 days is $270 for the first day and $135 for each additional day. Which of the following equations gives the cost \\(y\\), in dollars, of renting the backhoe for \\(x\\) days, where \\(x\\) is a positive integer and \\(x \\le 10\\)?",
-  choices:[
-    {k:"A", t:"\\(y = 270x - 135\\)"},
-    {k:"B", t:"\\(y = 270x + 135\\)"},
-    {k:"C", t:"\\(y = 135x + 270\\)"},
-    {k:"D", t:"\\(y = 135x + 135\\)"}
-  ],
+  choices:[{k:"A",t:"\\(y = 270x - 135\\)"},{k:"B",t:"\\(y = 270x + 135\\)"},{k:"C",t:"\\(y = 135x + 270\\)"},{k:"D",t:"\\(y = 135x + 135\\)"}],
   answer:"D",
   rationale:"Cost = first-day cost + cost for additional days: \\(y = 270 + 135(x-1) = 270 + 135x - 135 = 135x + 135\\)."
 },
-{
-  id:"366854ef", skill:"Linear functions", difficulty:"Easy", type:"grid",
+{ id:"366854ef", skill:"Linear functions", difficulty:"Easy", type:"grid",
   question:"The function \\(f\\) is defined by \\(f(x) = x + \\dfrac{8}{11}\\). What is the value of \\(f(x)\\) when \\(x = \\dfrac{3}{11}\\)?",
   accept:["1"],
   rationale:"\\(f\\left(\\frac{3}{11}\\right) = \\frac{3}{11}+\\frac{8}{11} = \\frac{11}{11} = 1\\)."
 },
-{
-  id:"3cc991d1", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
+{ id:"3cc991d1", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
   question:"On the first day of a semester, a film club has 90 members. Each day after the first day of the semester, 10 new members join the film club. If no members leave the film club, how many total members will the film club have 4 days after the first day of the semester?",
-  choices:[
-    {k:"A", t:"\\(400\\)"},
-    {k:"B", t:"\\(130\\)"},
-    {k:"C", t:"\\(94\\)"},
-    {k:"D", t:"\\(90\\)"}
-  ],
+  choices:[{k:"A",t:"\\(400\\)"},{k:"B",t:"\\(130\\)"},{k:"C",t:"\\(94\\)"},{k:"D",t:"\\(90\\)"}],
   answer:"B",
   rationale:"After 4 days, \\(4 \\times 10 = 40\\) new members have joined. \\(90 + 40 = 130\\) total members."
 },
-{
-  id:"5b4e020d", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
+{ id:"5b4e020d", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
   question:"If \\(x = 40\\), what is the value of \\(x + 6\\)?",
-  choices:[
-    {k:"A", t:"\\(34\\)"},
-    {k:"B", t:"\\(40\\)"},
-    {k:"C", t:"\\(46\\)"},
-    {k:"D", t:"\\(64\\)"}
-  ],
+  choices:[{k:"A",t:"\\(34\\)"},{k:"B",t:"\\(40\\)"},{k:"C",t:"\\(46\\)"},{k:"D",t:"\\(64\\)"}],
   answer:"C",
   rationale:"\\(40 + 6 = 46\\)."
 },
-{
-  id:"4df85138", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
+{ id:"4df85138", skill:"Linear equations in one variable", difficulty:"Easy", type:"mcq",
   question:"Which equation has the same solution as the given equation? \\(16x + 30 = 190\\)",
-  choices:[
-    {k:"A", t:"\\(16x = 30\\)"},
-    {k:"B", t:"\\(16x = 130\\)"},
-    {k:"C", t:"\\(16x = 160\\)"},
-    {k:"D", t:"\\(16x = 190\\)"}
-  ],
+  choices:[{k:"A",t:"\\(16x = 30\\)"},{k:"B",t:"\\(16x = 130\\)"},{k:"C",t:"\\(16x = 160\\)"},{k:"D",t:"\\(16x = 190\\)"}],
   answer:"C",
   rationale:"Subtracting 30 from both sides of \\(16x+30=190\\) gives \\(16x=160\\)."
 },
-{
-  id:"c2dcbd22", skill:"Linear equations in two variables", difficulty:"Easy", type:"mcq",
+{ id:"c2dcbd22", skill:"Linear equations in two variables", difficulty:"Easy", type:"mcq",
   question:"Line \\(k\\) is defined by \\(y = 6x + 4\\). Line \\(j\\) is parallel to line \\(k\\) in the \\(xy\\)-plane and passes through the point \\((0, 5)\\). Which equation defines line \\(j\\)?",
-  choices:[
-    {k:"A", t:"\\(y = 6x + 5\\)"},
-    {k:"B", t:"\\(y = -5x + 5\\)"},
-    {k:"C", t:"\\(y = -6x + 5\\)"},
-    {k:"D", t:"\\(y = 5x + 5\\)"}
-  ],
+  choices:[{k:"A",t:"\\(y = 6x + 5\\)"},{k:"B",t:"\\(y = -5x + 5\\)"},{k:"C",t:"\\(y = -6x + 5\\)"},{k:"D",t:"\\(y = 5x + 5\\)"}],
   answer:"A",
   rationale:"Parallel lines have equal slopes, so line \\(j\\) has slope 6. Its y-intercept is 5 (given point (0,5)). So \\(y = 6x+5\\)."
 },
-{
-  id:"e170e55b", skill:"Linear equations in one variable", difficulty:"Medium", type:"mcq",
+{ id:"e170e55b", skill:"Linear equations in one variable", difficulty:"Medium", type:"mcq",
   question:"If \\(46 = 16 + 2(x - 8)\\), what is the value of \\(2(x - 8)\\)?",
-  choices:[
-    {k:"A", t:"\\(16\\)"},
-    {k:"B", t:"\\(23\\)"},
-    {k:"C", t:"\\(30\\)"},
-    {k:"D", t:"\\(38\\)"}
-  ],
+  choices:[{k:"A",t:"\\(16\\)"},{k:"B",t:"\\(23\\)"},{k:"C",t:"\\(30\\)"},{k:"D",t:"\\(38\\)"}],
   answer:"C",
   rationale:"Subtracting 16 from both sides gives \\(30 = 2(x-8)\\)."
 },
-{
-  id:"a26fed41", skill:"Linear inequalities in one or two variables", difficulty:"Easy", type:"mcq",
+{ id:"a26fed41", skill:"Linear inequalities in one or two variables", difficulty:"Easy", type:"mcq",
   question:"On a car trip, Rhett and Jessica each drove for part of the trip, and the total distance they drove was under 220 miles. Rhett drove at an average speed of 35 miles per hour (mph), and Jessica drove at an average speed of 40 mph. Which of the following inequalities represents this situation, where \\(r\\) is the number of hours Rhett drove and \\(j\\) is the number of hours Jessica drove?",
-  choices:[
-    {k:"A", t:"\\(35r + 40j > 220\\)"},
-    {k:"B", t:"\\(35r + 40j < 220\\)"},
-    {k:"C", t:"\\(40r + 35j > 220\\)"},
-    {k:"D", t:"\\(40r + 35j < 220\\)"}
-  ],
+  choices:[{k:"A",t:"\\(35r + 40j > 220\\)"},{k:"B",t:"\\(35r + 40j < 220\\)"},{k:"C",t:"\\(40r + 35j > 220\\)"},{k:"D",t:"\\(40r + 35j < 220\\)"}],
   answer:"B",
   rationale:"Distance Rhett drove: \\(35r\\). Distance Jessica drove: \\(40j\\). Total distance under 220 miles: \\(35r+40j < 220\\)."
 },
-{
-  id:"8d93d73a", skill:"Linear inequalities in one or two variables", difficulty:"Hard", type:"mcq",
+{ id:"8d93d73a", skill:"Linear inequalities in one or two variables", difficulty:"Hard", type:"mcq",
   question:"\\(y < 5x + 6\\)<br><br>For which of the following tables are all the values of \\(x\\) and their corresponding values of \\(y\\) solutions to the given inequality?",
-  figure:`
-  <div style="display:flex; gap:22px; flex-wrap:wrap; justify-content:center;">
-    <div><b style="font-family:var(--mono); font-size:12px;">A</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>17</td></tr><tr><td>5</td><td>27</td></tr><tr><td>7</td><td>37</td></tr></table></div>
-    <div><b style="font-family:var(--mono); font-size:12px;">B</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>17</td></tr><tr><td>5</td><td>35</td></tr><tr><td>7</td><td>37</td></tr></table></div>
-    <div><b style="font-family:var(--mono); font-size:12px;">C</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>25</td></tr><tr><td>5</td><td>35</td></tr><tr><td>7</td><td>45</td></tr></table></div>
-    <div><b style="font-family:var(--mono); font-size:12px;">D</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>21</td></tr><tr><td>5</td><td>31</td></tr><tr><td>7</td><td>41</td></tr></table></div>
-  </div>`,
-  choices:[
-    {k:"A", t:"Table A"},
-    {k:"B", t:"Table B"},
-    {k:"C", t:"Table C"},
-    {k:"D", t:"Table D"}
-  ],
+  figure:`<div style="display:flex; gap:22px; flex-wrap:wrap; justify-content:center;"><div><b style="font-family:var(--mono); font-size:12px;">A</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>17</td></tr><tr><td>5</td><td>27</td></tr><tr><td>7</td><td>37</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">B</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>17</td></tr><tr><td>5</td><td>35</td></tr><tr><td>7</td><td>37</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">C</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>25</td></tr><tr><td>5</td><td>35</td></tr><tr><td>7</td><td>45</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">D</b><table><tr><th>x</th><th>y</th></tr><tr><td>3</td><td>21</td></tr><tr><td>5</td><td>31</td></tr><tr><td>7</td><td>41</td></tr></table></div></div>`,
+  choices:[{k:"A",t:"Table A"},{k:"B",t:"Table B"},{k:"C",t:"Table C"},{k:"D",t:"Table D"}],
   answer:"A",
   rationale:"At \\(x=3,5,7\\), the inequality requires \\(y < 21, 31, 41\\) respectively. Only Table A's values (17, 27, 37) satisfy all three."
 },
-{
-  id:"9609a243", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"mcq",
+{ id:"9609a243", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"mcq",
   question:"\\(4x - 9y = 9y + 5\\)<br>\\(hy = 2 + 4x\\)<br><br>In the given system of equations, \\(h\\) is a constant. If the system has no solution, what is the value of \\(h\\)?",
-  choices:[
-    {k:"A", t:"\\(-9\\)"},
-    {k:"B", t:"\\(0\\)"},
-    {k:"C", t:"\\(9\\)"},
-    {k:"D", t:"\\(18\\)"}
-  ],
+  choices:[{k:"A",t:"\\(-9\\)"},{k:"B",t:"\\(0\\)"},{k:"C",t:"\\(9\\)"},{k:"D",t:"\\(18\\)"}],
   answer:"D",
   rationale:"Rewriting the first equation: \\(4x - 18y = 5\\). Rewriting the second: \\(-4x + hy = 2\\). For parallel lines, the coefficient of \\(y\\) in the second equation must be \\(-1\\) times the coefficient of \\(y\\) in the first: \\(h = -1(-18) = 18\\)."
 },
-{
-  id:"0876dbef", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"grid",
+{ id:"0876dbef", skill:"Systems of two linear equations in two variables", difficulty:"Hard", type:"grid",
   question:"\\(\\dfrac{7}{8}y - \\dfrac{5}{8}x = \\dfrac{4}{7} - \\dfrac{7}{8}y\\)<br>\\(\\dfrac{5}{4}x + \\dfrac{7}{4} = py + \\dfrac{15}{4}\\)<br><br>In the given system of equations, \\(p\\) is a constant. If the system has no solution, what is the value of \\(p\\)?",
   accept:["3.5","7/2"],
   rationale:"Standard form: first equation becomes \\(5x - 14y = -\\frac{32}{7}\\); second becomes \\(5x - 4py = 8\\). For the lines to be parallel, \\(-14 = -4p\\), so \\(p = \\frac{7}{2} = 3.5\\)."
 },
-{
-  id:"a3f57d54", skill:"Linear functions", difficulty:"Hard", type:"grid",
+{ id:"a3f57d54", skill:"Linear functions", difficulty:"Hard", type:"grid",
   question:"The equation \\(h = \\dfrac{9(v-273.15)}{5} + 32\\) gives the corresponding temperature \\(h\\), in degrees Fahrenheit, of any substance that has a temperature of \\(v\\) kelvins, where \\(v > 0\\). If a substance has a temperature of \\(467.33\\) degrees Fahrenheit, what is the corresponding temperature, in kelvins, of this substance?",
   accept:["515"],
   rationale:"Substituting \\(h=467.33\\): \\(435.33 = \\frac{9(v-273.15)}{5}\\), so \\(2176.65 = 9(v-273.15)\\), giving \\(v - 273.15 = 241.85\\), so \\(v = 515\\)."
 },
-{
-  id:"c5526332", skill:"Linear functions", difficulty:"Hard", type:"mcq",
+{ id:"c5526332", skill:"Linear functions", difficulty:"Hard", type:"mcq",
   question:"For the linear function \\(f\\), the table shows three values of \\(x\\) and their corresponding values of \\(f(x)\\). Function \\(f\\) is defined by \\(f(x) = ax + b\\), where \\(a\\) and \\(b\\) are constants. What is the value of \\(a - b\\)?",
   figure:`<table><tr><th>x</th><td>1</td><td>2</td><td>3</td></tr><tr><th>f(x)</th><td>-64</td><td>0</td><td>64</td></tr></table>`,
-  choices:[
-    {k:"A", t:"\\(-64\\)"},
-    {k:"B", t:"\\(62\\)"},
-    {k:"C", t:"\\(128\\)"},
-    {k:"D", t:"\\(192\\)"}
-  ],
+  choices:[{k:"A",t:"\\(-64\\)"},{k:"B",t:"\\(62\\)"},{k:"C",t:"\\(128\\)"},{k:"D",t:"\\(192\\)"}],
   answer:"D",
   rationale:"Slope \\(a = 64\\) (since \\(f\\) increases by 64 per unit of \\(x\\)). Using \\(f(2)=0\\): \\(0 = 64(2)+b\\), so \\(b=-128\\). Then \\(a-b = 64-(-128) = 192\\)."
 },
-{
-  id:"57e4b0b9", skill:"Linear inequalities in one or two variables", difficulty:"Medium", type:"mcq",
+{ id:"57e4b0b9", skill:"Linear inequalities in one or two variables", difficulty:"Medium", type:"mcq",
   question:"A model estimates that whales from the genus Eschrichtius travel 72 to 77 miles in the ocean each day during their migration. Based on this model, which inequality represents the estimated total number of miles, \\(x\\), a whale from the genus Eschrichtius could travel in 16 days of its migration?",
-  choices:[
-    {k:"A", t:"\\(72 + 16 \\le x \\le 77 + 16\\)"},
-    {k:"B", t:"\\((72)(16) \\le x \\le (77)(16)\\)"},
-    {k:"C", t:"\\(72 \\le 16 + x \\le 77\\)"},
-    {k:"D", t:"\\(72 \\le 16x \\le 77\\)"}
-  ],
+  choices:[{k:"A",t:"\\(72 + 16 \\le x \\le 77 + 16\\)"},{k:"B",t:"\\((72)(16) \\le x \\le (77)(16)\\)"},{k:"C",t:"\\(72 \\le 16 + x \\le 77\\)"},{k:"D",t:"\\(72 \\le 16x \\le 77\\)"}],
   answer:"B",
   rationale:"Over 16 days, total miles range from \\(72 \\times 16\\) to \\(77 \\times 16\\), giving \\((72)(16) \\le x \\le (77)(16)\\)."
 },
-{
-  id:"a54038fb", skill:"Linear functions", difficulty:"Easy", type:"mcq",
+{ id:"a54038fb", skill:"Linear functions", difficulty:"Easy", type:"mcq",
   question:"The graph of the linear function \\(f\\) is shown, where \\(y = f(x)\\). What is the \\(x\\)-intercept of the graph of \\(f\\)?",
-  figure:`<svg width="320" height="220" viewBox="0 0 320 220">
-    ${Array.from({length:17},(_,i)=>`<line x1="${5+i*19}" y1="10" x2="${5+i*19}" y2="210" stroke="#E3DFD2" stroke-width="1"/>`).join('')}
-    ${Array.from({length:11},(_,i)=>`<line x1="5" y1="${10+i*19}" x2="315" y2="${10+i*19}" stroke="#E3DFD2" stroke-width="1"/>`).join('')}
-    <line x1="5" y1="129" x2="315" y2="129" stroke="#8B94A6" stroke-width="1.2"/>
-    <line x1="252" y1="10" x2="252" y2="210" stroke="#8B94A6" stroke-width="1.2"/>
-    <line x1="15" y1="185" x2="300" y2="55" stroke="#1C2B4A" stroke-width="2.5"/>
-    <circle cx="90" cy="129" r="5" fill="#B9852E"/>
-    <text x="98" y="122" font-family="IBM Plex Mono" font-size="12" fill="#1C2B4A">(-12,0)</text>
-  </svg>`,
-  choices:[
-    {k:"A", t:"\\((-12, 0)\\)"},
-    {k:"B", t:"\\((0, 0)\\)"},
-    {k:"C", t:"\\(\\left(\\dfrac{1}{4}, 0\\right)\\)"},
-    {k:"D", t:"\\((12, 0)\\)"}
-  ],
+  figure:`<svg width="300" height="210" viewBox="0 0 320 220">${Array.from({length:17},(_,i)=>`<line x1="${5+i*19}" y1="10" x2="${5+i*19}" y2="210" stroke="#E3DFD2" stroke-width="1"/>`).join('')}${Array.from({length:11},(_,i)=>`<line x1="5" y1="${10+i*19}" x2="315" y2="${10+i*19}" stroke="#E3DFD2" stroke-width="1"/>`).join('')}<line x1="5" y1="129" x2="315" y2="129" stroke="#8B94A6" stroke-width="1.2"/><line x1="252" y1="10" x2="252" y2="210" stroke="#8B94A6" stroke-width="1.2"/><line x1="15" y1="185" x2="300" y2="55" stroke="#1C2B4A" stroke-width="2.5"/><circle cx="90" cy="129" r="5" fill="#B9852E"/><text x="98" y="122" font-family="IBM Plex Mono" font-size="12" fill="#1C2B4A">(-12,0)</text></svg>`,
+  choices:[{k:"A",t:"\\((-12, 0)\\)"},{k:"B",t:"\\((0, 0)\\)"},{k:"C",t:"\\(\\left(\\dfrac{1}{4}, 0\\right)\\)"},{k:"D",t:"\\((12, 0)\\)"}],
   answer:"A",
   rationale:"The x-intercept is where the graph crosses the x-axis. On the graph shown, the line crosses the x-axis at \\((-12, 0)\\)."
 }
 ];
 
-/* =========================================================
-   MATH DOMAINS — skill lists follow the official SAT
-   test specification. Only Algebra has questions loaded
-   right now; the rest are wired up and ready for content.
-   ========================================================= */
 const DOMAINS = [
-  {
-    key:"algebra", label:"Algebra",
+  { key:"algebra", label:"Algebra",
     skills:["Linear equations in one variable","Linear equations in two variables","Linear functions","Systems of two linear equations in two variables","Linear inequalities in one or two variables"],
-    questions: ALGEBRA_QUESTIONS
-  },
-  {
-    key:"advanced-math", label:"Advanced Math",
+    weight: 28, questions: ALGEBRA_QUESTIONS },
+  { key:"advanced-math", label:"Advanced Math",
     skills:["Equivalent expressions","Nonlinear equations in one variable and systems of equations in two variables","Nonlinear functions"],
-    questions: []
-  },
-  {
-    key:"psda", label:"Problem-Solving & Data Analysis",
+    weight: 32, questions: [] },
+  { key:"psda", label:"Problem-Solving & Data Analysis",
     skills:["Ratios, rates, proportional relationships, and units","Percentages","One-variable data: distributions and measures of center and spread","Two-variable data: models and scatterplots","Probability and conditional probability","Inference from sample statistics and margin of error","Evaluating statistical claims: observational studies and experiments"],
-    questions: []
-  },
-  {
-    key:"geo-trig", label:"Geometry & Trigonometry",
+    weight: 20, questions: [] },
+  { key:"geo-trig", label:"Geometry & Trigonometry",
     skills:["Area and volume","Lines, angles, and triangles","Right triangles and trigonometry","Circles"],
-    questions: []
-  }
+    weight: 24, questions: [] }
 ];
 const DIFFICULTIES = ["Easy","Medium","Hard"];
-const SITE_VERSION = "1.1.0";
+const SITE_VERSION = "2.0.0";
+
+/* =========================================================
+   LOCAL STORAGE HELPERS
+   ========================================================= */
+const LS_SCORES = "freesat_score_history";
+const LS_LOG = "freesat_attempt_log";
+
+function loadScores(){
+  try{ return JSON.parse(localStorage.getItem(LS_SCORES)) || []; } catch(e){ return []; }
+}
+function saveScores(arr){ try{ localStorage.setItem(LS_SCORES, JSON.stringify(arr)); }catch(e){} }
+
+function loadLog(){
+  try{ return JSON.parse(localStorage.getItem(LS_LOG)) || []; } catch(e){ return []; }
+}
+function saveLog(arr){ try{ localStorage.setItem(LS_LOG, JSON.stringify(arr)); }catch(e){} }
+function logAttempt(domainKey, skill, correct){
+  const log = loadLog();
+  log.push({domainKey, skill, correct, ts: Date.now()});
+  saveLog(log);
+}
 
 /* =========================================================
    STATE
    ========================================================= */
 let state = {
-  primaryTab: "math",       // "math" | "rw"
+  primaryTab: "home",       // "home" | "math" | "rw"
   domainKey: "algebra",
   activeDifficulties: new Set(DIFFICULTIES),
   activeSkills: new Set(),
@@ -937,15 +562,13 @@ let state = {
 };
 
 function currentDomain(){ return DOMAINS.find(d=>d.key===state.domainKey); }
-function allQuestionsById(){
-  return DOMAINS.flatMap(d=>d.questions);
-}
+function allQuestionsById(){ return DOMAINS.flatMap(d=>d.questions); }
 function byId(id){ return allQuestionsById().find(q=>q.id===id); }
 
-function setDomain(key){
+function setDomain(key, skillFilter){
   state.domainKey = key;
   const d = currentDomain();
-  state.activeSkills = new Set(d.skills);
+  state.activeSkills = skillFilter ? new Set([skillFilter]) : new Set(d.skills);
   state.activeDifficulties = new Set(DIFFICULTIES);
   state.idx = 0;
   rebuildOrder(false);
@@ -953,18 +576,13 @@ function setDomain(key){
 
 function shuffledIds(list){
   const arr = list.map(q=>q.id);
-  for(let i=arr.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
-  }
+  for(let i=arr.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
   return arr;
 }
-
 function getFilteredQuestions(){
   const d = currentDomain();
   return d.questions.filter(q => state.activeDifficulties.has(q.difficulty) && state.activeSkills.has(q.skill));
 }
-
 function rebuildOrder(preserveIfPossible){
   const filtered = getFilteredQuestions();
   const filteredIds = new Set(filtered.map(q=>q.id));
@@ -979,177 +597,348 @@ function rebuildOrder(preserveIfPossible){
 }
 
 /* =========================================================
-   RENDER: TOP NAV
+   TOP-LEVEL RENDER DISPATCH
    ========================================================= */
+function renderAll(){
+  renderPrimaryTabs();
+  const root = document.getElementById('pageRoot');
+  if(state.primaryTab === 'home'){ root.innerHTML = homeTemplate(); wireHome(); }
+  else if(state.primaryTab === 'rw'){ root.innerHTML = rwTemplate(); }
+  else { root.innerHTML = mathTemplate(); wireMath(); }
+  updateHeaderMeta();
+}
+
 function renderPrimaryTabs(){
   const wrap = document.getElementById('primaryTabs');
   wrap.innerHTML = `
+    <button class="nav-tab ${state.primaryTab==='home'?'active':''}" id="tabHome">Home</button>
     <button class="nav-tab ${state.primaryTab==='math'?'active':''}" id="tabMath">Math</button>
     <button class="nav-tab ${state.primaryTab==='rw'?'active':''}" id="tabRW">Reading &amp; Writing <span class="soon-badge">Under Construction</span></button>
   `;
+  document.getElementById('tabHome').onclick = ()=>{ state.primaryTab='home'; renderAll(); };
   document.getElementById('tabMath').onclick = ()=>{ state.primaryTab='math'; renderAll(); };
   document.getElementById('tabRW').onclick = ()=>{ state.primaryTab='rw'; renderAll(); };
+  document.getElementById('logoHome').onclick = ()=>{ state.primaryTab='home'; renderAll(); };
 }
 
-function renderDomainTabs(){
-  const wrap = document.getElementById('domainTabsWrap');
-  if(state.primaryTab !== 'math'){ wrap.innerHTML=''; return; }
-  let html = `<div class="domain-tabs">`;
+function updateHeaderMeta(){
+  const totalLoaded = DOMAINS.reduce((sum,d)=>sum+d.questions.length,0);
+  document.getElementById('headerMeta').textContent = `${totalLoaded} question${totalLoaded===1?'':'s'} live across Math`;
+  document.getElementById('versionTag').textContent = SITE_VERSION;
+}
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+function computeLifetimeStats(){
+  const log = loadLog();
+  const answered = log.length;
+  const correct = log.filter(a=>a.correct).length;
+  const accuracy = answered ? Math.round((correct/answered)*100) : null;
+  const scores = loadScores();
+  const latest = scores.length ? scores[scores.length-1] : null;
+  const totalQuestions = DOMAINS.reduce((s,d)=>s+d.questions.length,0);
+  return {answered, correct, accuracy, latest, totalQuestions};
+}
+
+function computeRecommendations(){
+  const log = loadLog();
+  const recs = [];
   DOMAINS.forEach(d=>{
-    const isEmpty = d.questions.length === 0;
-    html += `<button class="domain-tab ${d.key===state.domainKey?'active':''} ${isEmpty?'empty':''}" data-key="${d.key}">
-      ${d.label} <span class="dcount">${isEmpty ? 'Soon' : d.questions.length}</span>
-    </button>`;
+    if(d.questions.length === 0) return;
+    d.skills.forEach(skill=>{
+      const total = d.questions.filter(q=>q.skill===skill).length;
+      if(total === 0) return;
+      const attempts = log.filter(a=>a.domainKey===d.key && a.skill===skill);
+      const correct = attempts.filter(a=>a.correct).length;
+      const accuracy = attempts.length ? correct/attempts.length : null;
+      const effectiveAcc = accuracy === null ? 0.35 : accuracy; // assume weak until proven
+      const potential = Math.round(d.weight/d.skills.length * (1-effectiveAcc));
+      recs.push({domainKey:d.key, domainLabel:d.label, skill, attempts:attempts.length, correct, accuracy, potential});
+    });
   });
-  html += `</div>`;
-  wrap.innerHTML = html;
-  wrap.querySelectorAll('.domain-tab').forEach(btn=>{
-    btn.onclick = ()=>{ setDomain(btn.dataset.key); renderAll(); };
+  recs.sort((a,b)=> b.potential - a.potential);
+  return recs.slice(0,5);
+}
+
+function scoreChartSVG(scores){
+  const W=640,H=260,padL=48,padR=16,padT=16,padB=34;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  const minS=400,maxS=1600;
+  const yFor = s => padT + plotH*(1-(s-minS)/(maxS-minS));
+  const xFor = i => scores.length<=1 ? padL+plotW/2 : padL + plotW*i/(scores.length-1);
+
+  let gridLines = '';
+  for(let s=minS; s<=maxS; s+=200){
+    const y = yFor(s);
+    gridLines += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#E4E0D3" stroke-width="1"/>`;
+    gridLines += `<text x="${padL-8}" y="${y+4}" font-family="IBM Plex Mono" font-size="10" fill="#6B7280" text-anchor="end">${s}</text>`;
+  }
+
+  if(scores.length === 0){
+    return `<svg viewBox="0 0 ${W} ${H}">${gridLines}<text x="${W/2}" y="${H/2}" font-family="IBM Plex Mono" font-size="13" fill="#6B7280" text-anchor="middle">No scores logged yet — add one below</text></svg>`;
+  }
+
+  const pts = scores.map((s,i)=>({x:xFor(i), y:yFor(s.total), date:s.date, total:s.total}));
+
+  let linePath = `M ${pts[0].x},${pts[0].y}`;
+  for(let i=1;i<pts.length;i++){
+    const midX=(pts[i-1].x+pts[i].x)/2, midY=(pts[i-1].y+pts[i].y)/2;
+    linePath += ` Q ${pts[i-1].x},${pts[i-1].y} ${midX},${midY}`;
+  }
+  linePath += ` L ${pts[pts.length-1].x},${pts[pts.length-1].y}`;
+
+  const baseline = padT+plotH;
+  let areaPath = `M ${pts[0].x},${baseline} L ${pts[0].x},${pts[0].y}`;
+  for(let i=1;i<pts.length;i++){
+    const midX=(pts[i-1].x+pts[i].x)/2, midY=(pts[i-1].y+pts[i].y)/2;
+    areaPath += ` Q ${pts[i-1].x},${pts[i-1].y} ${midX},${midY}`;
+  }
+  areaPath += ` L ${pts[pts.length-1].x},${pts[pts.length-1].y} L ${pts[pts.length-1].x},${baseline} Z`;
+
+  const dots = pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4.5" fill="#B9852E" stroke="#fff" stroke-width="1.5"/>`).join('');
+  const labels = pts.map(p=>`<text x="${p.x}" y="${p.y-12}" font-family="IBM Plex Mono" font-size="10.5" fill="#101A30" text-anchor="middle" font-weight="600">${p.total}</text>`).join('');
+  const dateLabels = pts.map((p,i)=> (i%Math.ceil(pts.length/8||1)===0) ? `<text x="${p.x}" y="${H-10}" font-family="IBM Plex Mono" font-size="9.5" fill="#6B7280" text-anchor="middle">${p.date.slice(5)}</text>` : '').join('');
+
+  return `<svg viewBox="0 0 ${W} ${H}">
+    <defs>
+      <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#B9852E" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="#B9852E" stop-opacity="0.02"/>
+      </linearGradient>
+    </defs>
+    ${gridLines}
+    <path d="${areaPath}" fill="url(#areaGrad)"/>
+    <path d="${linePath}" fill="none" stroke="#101A30" stroke-width="2.5"/>
+    ${dots}
+    ${labels}
+    ${dateLabels}
+  </svg>`;
+}
+
+function homeTemplate(){
+  const stats = computeLifetimeStats();
+  const scores = loadScores();
+  const recs = computeRecommendations();
+  const anyMathContent = DOMAINS.some(d=>d.questions.length>0);
+
+  const statRow = `
+  <div class="stat-row">
+    <div class="stat-card"><div class="lbl">Latest Score</div><div class="val">${stats.latest ? stats.latest.total : '—'}</div><div class="sub">${stats.latest ? stats.latest.date : 'No scores yet'}</div></div>
+    <div class="stat-card"><div class="lbl">Questions Answered</div><div class="val">${stats.answered}</div><div class="sub">across all sessions</div></div>
+    <div class="stat-card"><div class="lbl">Lifetime Accuracy</div><div class="val">${stats.accuracy===null?'—':stats.accuracy+'%'}</div><div class="sub">${stats.correct} correct</div></div>
+    <div class="stat-card"><div class="lbl">Questions Live</div><div class="val">${stats.totalQuestions}</div><div class="sub">in Math right now</div></div>
+  </div>`;
+
+  const scoreTableRows = scores.slice().reverse().map(s=>`
+    <tr>
+      <td>${s.date}</td><td>${s.math}</td><td>${s.rw}</td><td><b>${s.total}</b></td>
+      <td><span class="del" data-id="${s.id}">✕</span></td>
+    </tr>`).join('');
+
+  const recCards = recs.length ? recs.map(r=>{
+    const accText = r.accuracy===null ? 'Not attempted yet' : Math.round(r.accuracy*100)+'% accuracy';
+    const barPct = r.accuracy===null ? 12 : Math.round(r.accuracy*100);
+    return `
+    <div class="rec-card">
+      <div class="rec-top">
+        <div>
+          <div class="rec-skill">${r.skill}</div>
+          <div class="rec-domain">${r.domainLabel}</div>
+        </div>
+        <div class="rec-gain">
+          <div class="num">+${r.potential}</div>
+          <div class="lbl">est. pts</div>
+        </div>
+      </div>
+      <div class="rec-meta">
+        <div class="rec-accuracy-bar"><div class="fill" style="width:${barPct}%;"></div></div>
+        <div class="rec-accuracy-text">${accText}</div>
+      </div>
+      <button class="btn small primary" data-domain="${r.domainKey}" data-skill="${r.skill}">Practice this skill →</button>
+    </div>`;
+  }).join('') : `<div class="rec-empty">Add questions to a Math domain to start getting recommendations.</div>`;
+
+  return `
+    <div class="home-hero">
+      <div class="big">Welcome back.</div>
+      <p>Log your real SAT or practice test scores to track progress over time, and get pointed at the skills worth practicing next.</p>
+    </div>
+
+    ${statRow}
+
+    <div class="home-grid">
+      <div class="panel chart-panel">
+        <div class="panel-title">Score History</div>
+        <div class="chart-wrap">${scoreChartSVG(scores)}</div>
+        <div class="score-form">
+          <div class="field"><label>Date</label><input type="date" id="scoreDate"/></div>
+          <div class="field"><label>Math (200–800)</label><input type="number" id="scoreMath" min="200" max="800" step="10" placeholder="600"/></div>
+          <div class="field"><label>R&amp;W (200–800)</label><input type="number" id="scoreRW" min="200" max="800" step="10" placeholder="600"/></div>
+          <button class="btn primary" id="addScoreBtn">Add Score</button>
+        </div>
+        <div class="score-table-wrap">
+          ${scores.length ? `<table class="score-table"><tr><th>Date</th><th>Math</th><th>R&amp;W</th><th>Total</th><th></th></tr>${scoreTableRows}</table>` : `<div class="score-table-empty">No scores logged yet. Add your most recent practice test or official SAT score above.</div>`}
+        </div>
+      </div>
+
+      <div class="panel rec-panel">
+        <div class="panel-title">Recommended Practice</div>
+        <div class="panel-sub">${anyMathContent ? 'Ranked by estimated score impact — skills you haven\'t tried or have missed most are prioritized.' : 'Recommendations activate once Math domains have questions loaded.'}</div>
+        ${recCards}
+        <div class="rec-disclaimer">Point estimates are a rough, motivational guide based on skill weighting and your accuracy — not an official College Board score predictor.</div>
+      </div>
+    </div>
+  `;
+}
+
+function wireHome(){
+  const dateInput = document.getElementById('scoreDate');
+  const today = new Date().toISOString().slice(0,10);
+  dateInput.value = today;
+
+  document.getElementById('addScoreBtn').onclick = ()=>{
+    const date = document.getElementById('scoreDate').value || today;
+    const math = parseInt(document.getElementById('scoreMath').value,10);
+    const rw = parseInt(document.getElementById('scoreRW').value,10);
+    if(!math || !rw || math<200 || math>800 || rw<200 || rw>800){
+      alert('Enter Math and R&W scores between 200 and 800.');
+      return;
+    }
+    const scores = loadScores();
+    scores.push({id: Date.now().toString(36), date, math, rw, total: math+rw});
+    scores.sort((a,b)=> a.date.localeCompare(b.date));
+    saveScores(scores);
+    renderAll();
+  };
+
+  document.querySelectorAll('.score-table .del').forEach(el=>{
+    el.onclick = ()=>{
+      const id = el.dataset.id;
+      const scores = loadScores().filter(s=>s.id!==id);
+      saveScores(scores);
+      renderAll();
+    };
+  });
+
+  document.querySelectorAll('.rec-card [data-skill]').forEach(btn=>{
+    btn.onclick = ()=>{
+      state.primaryTab = 'math';
+      setDomain(btn.dataset.domain, btn.dataset.skill);
+      renderAll();
+    };
   });
 }
 
 /* =========================================================
-   RENDER: SIDEBAR
+   READING & WRITING PAGE
    ========================================================= */
-function renderSidebar(){
-  const sidebarWrap = document.getElementById('sidebarWrap');
-  const layoutWrap = document.getElementById('layoutWrap');
-
-  if(state.primaryTab !== 'math'){
-    sidebarWrap.style.display = 'none';
-    layoutWrap.classList.add('single-col');
-    return;
-  }
-  sidebarWrap.style.display = '';
-  layoutWrap.classList.remove('single-col');
-
-  const d = currentDomain();
-
-  const diffWrap = document.getElementById('difficultyChips');
-  diffWrap.innerHTML = '';
-  DIFFICULTIES.forEach(diff=>{
-    const chip = document.createElement('div');
-    chip.className = 'chip diff-'+diff.toLowerCase() + (state.activeDifficulties.has(diff) ? ' active' : '');
-    chip.textContent = diff;
-    chip.onclick = ()=>{
-      if(state.activeDifficulties.has(diff)){
-        if(state.activeDifficulties.size>1) state.activeDifficulties.delete(diff);
-      } else {
-        state.activeDifficulties.add(diff);
-      }
-      rebuildOrder(true);
-      renderSidebar();
-      renderMain();
-    };
-    diffWrap.appendChild(chip);
-  });
-
-  const skillWrap = document.getElementById('skillList');
-  skillWrap.innerHTML = '';
-  d.skills.forEach(s=>{
-    const count = d.questions.filter(q=>q.skill===s).length;
-    const disabled = count === 0;
-    const row = document.createElement('label');
-    row.className = 'skill-item' + (disabled ? ' disabled' : '');
-    row.innerHTML = `<input type="checkbox" ${state.activeSkills.has(s)?'checked':''} ${disabled?'disabled':''}/> <span>${s}</span><span class="count">${count}</span>`;
-    if(!disabled){
-      row.querySelector('input').onchange = (e)=>{
-        if(e.target.checked) state.activeSkills.add(s);
-        else {
-          if(state.activeSkills.size>1) state.activeSkills.delete(s);
-          else e.target.checked = true;
-        }
-        rebuildOrder(true);
-        renderSidebar();
-        renderMain();
-      };
-    }
-    skillWrap.appendChild(row);
-  });
-
-  renderScore();
+function rwTemplate(){
+  return `<div class="panel"><div class="construction-state">
+    <div class="construction-mark">Under Construction</div>
+    <div class="big">Reading &amp; Writing is on the way</div>
+    <p>The Math section is fully stocked and ready to practice. Reading &amp; Writing question sets — Craft and Structure, Information and Ideas, Standard English Conventions, and Expression of Ideas — are being built next.</p>
+    <div style="margin-top:26px;"><button class="btn primary" id="goMathBtn">Practice Math instead →</button></div>
+  </div></div>`;
 }
 
-function renderScore(){
-  if(state.primaryTab !== 'math'){ return; }
+/* =========================================================
+   MATH PAGE
+   ========================================================= */
+function mathTemplate(){
+  const d = currentDomain();
+  let domainTabsHtml = `<div class="domain-tabs">`;
+  DOMAINS.forEach(dm=>{
+    const isEmpty = dm.questions.length === 0;
+    domainTabsHtml += `<button class="domain-tab ${dm.key===state.domainKey?'active':''} ${isEmpty?'empty':''}" data-key="${dm.key}">${dm.label} <span class="dcount">${isEmpty?'Soon':dm.questions.length}</span></button>`;
+  });
+  domainTabsHtml += `</div>`;
+
+  return `
+    ${domainTabsHtml}
+    <div class="layout" id="mathLayout">
+      <aside class="sidebar" id="sidebarWrap">${sidebarTemplate()}</aside>
+      <main class="main"><div class="panel" id="mainPanel">${mainPanelTemplate()}</div></main>
+    </div>
+  `;
+}
+
+function sidebarTemplate(){
+  const d = currentDomain();
   const filtered = getFilteredQuestions();
   const filteredIds = new Set(filtered.map(q=>q.id));
   const answeredIds = Object.keys(state.answered).filter(id=>filteredIds.has(id));
   const correctCount = answeredIds.filter(id=>state.answered[id].correct).length;
   const total = filtered.length;
   const pct = answeredIds.length ? Math.round((correctCount/answeredIds.length)*100) : null;
-
-  document.getElementById('statAnswered').textContent = answeredIds.length;
-  document.getElementById('statCorrect').textContent = correctCount;
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('scorePct').textContent = pct===null ? '—' : pct+'%';
-
-  const circumference = 326.7;
-  const ring = document.getElementById('scoreRing');
+  const circumference = 301.6;
   const frac = pct===null ? 0 : pct/100;
-  ring.style.strokeDashoffset = circumference * (1-frac);
+  const dashoffset = circumference * (1-frac);
 
-  const totalLoaded = DOMAINS.reduce((sum,d)=>sum+d.questions.length,0);
-  document.getElementById('headerMeta').textContent = `${totalLoaded} question${totalLoaded===1?'':'s'} live across Math`;
+  let diffChips = DIFFICULTIES.map(diff=>`<div class="chip diff-${diff.toLowerCase()} ${state.activeDifficulties.has(diff)?'active':''}" data-diff="${diff}">${diff}</div>`).join('');
+
+  let skillRows = d.skills.map(s=>{
+    const count = d.questions.filter(q=>q.skill===s).length;
+    const disabled = count===0;
+    return `<label class="skill-item ${disabled?'disabled':''}">
+      <input type="checkbox" data-skill="${s}" ${state.activeSkills.has(s)?'checked':''} ${disabled?'disabled':''}/>
+      <span>${s}</span><span class="count">${count}</span>
+    </label>`;
+  }).join('');
+
+  return `
+    <div class="panel">
+      <div class="panel-title">Session</div>
+      <div class="score-ring-wrap">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle class="score-ring-bg" cx="48" cy="48" r="42"></circle>
+          <circle class="score-ring-fg" cx="48" cy="48" r="42" stroke-dasharray="${circumference}" stroke-dashoffset="${dashoffset}"></circle>
+        </svg>
+        <div class="score-ring-label"><div class="num">${pct===null?'—':pct+'%'}</div><div class="lbl">Correct</div></div>
+      </div>
+      <div class="score-stats">
+        <div>Answered<br><b>${answeredIds.length}</b></div>
+        <div>Correct<br><b>${correctCount}</b></div>
+        <div>In Set<br><b>${total}</b></div>
+      </div>
+      <button class="reset-btn" id="resetFiltersBtn">Reset filters &amp; score</button>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Filters</div>
+      <div class="chip-row">${diffChips}</div>
+      <div class="filter-divider"></div>
+      <div class="skill-list">${skillRows}</div>
+    </div>
+  `;
 }
 
-/* =========================================================
-   RENDER: MAIN
-   ========================================================= */
-function renderMain(){
-  const panel = document.getElementById('mainPanel');
-
-  if(state.primaryTab === 'rw'){
-    panel.innerHTML = `<div class="construction-state">
-      <div class="construction-mark">Under Construction</div>
-      <div class="big">Reading &amp; Writing is on the way</div>
-      <p>The Math section is fully stocked and ready to practice. Reading &amp; Writing question sets — Craft and Structure, Information and Ideas, Standard English Conventions, and Expression of Ideas — are being built next.</p>
-      <div style="margin-top:26px;">
-        <button class="btn primary" onclick="goToMath()">Practice Math instead →</button>
-      </div>
-    </div>`;
-    return;
-  }
-
+function mainPanelTemplate(){
   const d = currentDomain();
   const filtered = getFilteredQuestions();
 
   if(d.questions.length === 0){
-    panel.innerHTML = `<div class="construction-state">
+    return `<div class="construction-state">
       <div class="construction-mark">Coming Soon</div>
       <div class="big">${d.label} questions are on the way</div>
       <p>This domain is wired up and ready — questions just haven't been loaded in yet. Here's what's planned:</p>
-      <div class="construction-skills">
-        ${d.skills.map(s=>`<span class="tag">${s}</span>`).join('')}
-      </div>
-      <div style="margin-top:26px;">
-        <button class="btn primary" onclick="setDomain('algebra'); renderAll();">Practice Algebra instead →</button>
-      </div>
+      <div class="construction-skills">${d.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</div>
+      <div style="margin-top:26px;"><button class="btn primary" id="goAlgebraBtn">Practice Algebra instead →</button></div>
     </div>`;
-    return;
   }
 
   if(filtered.length === 0){
-    panel.innerHTML = `<div class="empty-state">
-      <div class="big">No questions match these filters</div>
-      <p>Select at least one skill and difficulty from the left to see practice questions.</p>
-    </div>`;
-    return;
+    return `<div class="empty-state"><div class="big">No questions match these filters</div><p>Select at least one skill and difficulty from the left to see practice questions.</p></div>`;
   }
 
   if(state.order.length === 0) rebuildOrder(false);
-
-  if(state.idx >= state.order.length){
-    renderSummary(panel, filtered);
-    return;
-  }
+  if(state.idx >= state.order.length) return summaryTemplate(filtered);
 
   const qid = state.order[state.idx];
   const q = byId(qid);
   const submitted = !!state.submitted[qid];
   const chosen = state.answered[qid] ? state.answered[qid].chosen : null;
 
-  let bodyHtml = `
+  let html = `
     <div class="qcard">
       <div class="qcard-topline">
         <div class="qcard-meta">
@@ -1164,236 +953,229 @@ function renderMain(){
   `;
 
   if(q.type === 'mcq'){
-    bodyHtml += `<div class="choices">`;
+    html += `<div class="choices">`;
     q.choices.forEach(c=>{
       let cls = 'choice';
-      if(chosen === c.k) cls += ' selected';
-      if(submitted){
-        cls += ' disabled';
-        if(c.k === q.answer) cls += ' correct';
-        else if(chosen === c.k) cls += ' incorrect';
-      }
-      bodyHtml += `<div class="${cls}" data-key="${c.k}" onclick="handleChoiceClick('${q.id}','${c.k}')">
-        <div class="bubble">${c.k}</div>
-        <div class="choice-text">${c.t}</div>
+      if(chosen===c.k) cls += ' selected';
+      if(submitted){ cls += ' disabled'; if(c.k===q.answer) cls+=' correct'; else if(chosen===c.k) cls+=' incorrect'; }
+      html += `<div class="${cls}" data-key="${c.k}">
+        <div class="bubble">${c.k}</div><div class="choice-text">${c.t}</div>
       </div>`;
     });
-    bodyHtml += `</div>`;
+    html += `</div>`;
   } else {
     let inputCls = 'gridin-input';
-    if(submitted){
-      inputCls += state.answered[qid].correct ? ' correct' : ' incorrect';
-    }
-    bodyHtml += `<div class="gridin-wrap">
+    if(submitted){ inputCls += state.answered[qid].correct ? ' correct' : ' incorrect'; }
+    html += `<div class="gridin-wrap">
       <div class="gridin-label">Enter your answer</div>
-      <input type="text" class="${inputCls}" id="gridInput" value="${chosen!==null && chosen!==undefined ? chosen : ''}" ${submitted?'disabled':''} placeholder="e.g. 3/2 or 1.5" autocomplete="off"/>
+      <input type="text" class="${inputCls}" id="gridInput" value="${chosen!==null&&chosen!==undefined?chosen:''}" ${submitted?'disabled':''} placeholder="e.g. 3/2 or 1.5" autocomplete="off"/>
       <div class="gridin-hint">Fractions (3/2), decimals (1.5), and negative signs are all accepted.</div>
     </div>`;
   }
 
-  bodyHtml += `</div>`;
+  html += `</div>`;
 
   if(submitted){
     const isCorrect = state.answered[qid].correct;
-    bodyHtml += `<div class="rationale ${isCorrect?'correct-panel':'incorrect-panel'}">
-      <div class="rationale-head ${isCorrect?'correct-text':'incorrect-text'}">${isCorrect?'Correct — here\'s why':'Not quite — here\'s why'}</div>
+    html += `<div class="rationale ${isCorrect?'correct-panel':'incorrect-panel'}">
+      <div class="rationale-head ${isCorrect?'correct-text':'incorrect-text'}">${isCorrect?"Correct — here's why":"Not quite — here's why"}</div>
       ${q.type==='mcq' ? `<div style="margin-bottom:8px;">Correct answer: <b>${q.answer}</b></div>` : `<div style="margin-bottom:8px;">Correct answer: <b>${q.accept[0]}</b></div>`}
       <div>${q.rationale}</div>
     </div>`;
   }
 
-  bodyHtml += `
+  html += `
     <div class="qcontrols">
       <div class="nav-btns">
-        <button class="btn" id="prevBtn" ${state.idx===0?'disabled':''} onclick="goPrev()">← Previous</button>
-        <button class="btn" id="skipBtn" onclick="goNext()">Skip →</button>
+        <button class="btn" id="prevBtn" ${state.idx===0?'disabled':''}>← Previous</button>
+        <button class="btn" id="skipBtn">Skip →</button>
       </div>
       <div class="nav-btns">
-        ${!submitted ? `<button class="btn primary" id="checkBtn" onclick="handleCheck('${q.id}')">Check Answer</button>` : `<button class="btn gold" onclick="goNext()">Next Question →</button>`}
+        ${!submitted ? `<button class="btn primary" id="checkBtn">Check Answer</button>` : `<button class="btn gold" id="nextBtn">Next Question →</button>`}
       </div>
     </div>
   `;
-
-  panel.innerHTML = bodyHtml;
-  renderMath(panel);
-
-  if(q.type === 'grid' && !submitted){
-    const input = document.getElementById('gridInput');
-    input.addEventListener('input', ()=>{ state.gridValue = input.value; });
-    input.addEventListener('keydown', (e)=>{ if(e.key==='Enter') handleCheck(q.id); });
-  }
+  return html;
 }
 
-function renderSummary(panel, filtered){
+function summaryTemplate(filtered){
   const filteredIds = new Set(filtered.map(q=>q.id));
   const answeredIds = Object.keys(state.answered).filter(id=>filteredIds.has(id));
   const correctCount = answeredIds.filter(id=>state.answered[id].correct).length;
-
   const bySkill = {};
   filtered.forEach(q=>{
     if(!bySkill[q.skill]) bySkill[q.skill] = {total:0, answered:0, correct:0};
     bySkill[q.skill].total++;
-    if(state.answered[q.id]){
-      bySkill[q.skill].answered++;
-      if(state.answered[q.id].correct) bySkill[q.skill].correct++;
-    }
+    if(state.answered[q.id]){ bySkill[q.skill].answered++; if(state.answered[q.id].correct) bySkill[q.skill].correct++; }
   });
-
   let rows = '';
   Object.keys(bySkill).forEach(s=>{
     const d = bySkill[s];
-    let pillClass = 'mid', pillText = '—';
-    if(d.answered>0){
-      const pct = Math.round((d.correct/d.answered)*100);
-      pillClass = pct>=80 ? 'good' : (pct>=50 ? 'mid' : 'bad');
-      pillText = pct+'%';
-    }
+    let pillClass='mid', pillText='—';
+    if(d.answered>0){ const pct=Math.round((d.correct/d.answered)*100); pillClass = pct>=80?'good':(pct>=50?'mid':'bad'); pillText = pct+'%'; }
     rows += `<tr><td>${s}</td><td>${d.answered}/${d.total}</td><td>${d.correct}</td><td><span class="pill ${pillClass}">${pillText}</span></td></tr>`;
   });
-
-  panel.innerHTML = `
-    <div class="summary-state">
-      <div class="big">Set complete — ${correctCount}/${answeredIds.length||0} correct</div>
-      <p>You've gone through every question in the current filter. Review your breakdown below, or restart to try again.</p>
-      <table class="summary-table">
-        <tr><th>Skill</th><th>Answered</th><th>Correct</th><th>Accuracy</th></tr>
-        ${rows}
-      </table>
-      <div style="margin-top:24px; display:flex; gap:10px; justify-content:center;">
-        <button class="btn primary" onclick="restartSet(false)">Retry same set</button>
-        <button class="btn gold" onclick="restartSet(true)">Shuffle &amp; retry</button>
-      </div>
+  return `<div class="summary-state">
+    <div class="big">Set complete — ${correctCount}/${answeredIds.length||0} correct</div>
+    <p>You've gone through every question in the current filter. Review your breakdown below, or restart to try again.</p>
+    <table class="summary-table"><tr><th>Skill</th><th>Answered</th><th>Correct</th><th>Accuracy</th></tr>${rows}</table>
+    <div style="margin-top:22px; display:flex; gap:10px; justify-content:center;">
+      <button class="btn primary" id="retrySameBtn">Retry same set</button>
+      <button class="btn gold" id="retryShuffleBtn">Shuffle &amp; retry</button>
     </div>
-  `;
+  </div>`;
 }
 
-function renderMath(container){
-  if(window.renderMathInElement){
-    renderMathInElement(container, {
-      delimiters: [
-        {left: "\\(", right: "\\)", display: false},
-        {left: "\\[", right: "\\]", display: true}
-      ],
-      throwOnError: false
-    });
-  }
+function renderMathBody(){
+  document.getElementById('sidebarWrap').innerHTML = sidebarTemplate();
+  document.getElementById('mainPanel').innerHTML = mainPanelTemplate();
+  renderMath(document.getElementById('mainPanel'));
+  wireMathBody();
 }
 
-/* =========================================================
-   INTERACTIONS
-   ========================================================= */
-function handleChoiceClick(qid, key){
-  if(state.submitted[qid]) return;
-  const q = byId(qid);
-  q._chosen = key;
-  document.querySelectorAll('.choice').forEach(el=>{
-    el.classList.toggle('selected', el.dataset.key === key);
+function wireMath(){
+  document.querySelectorAll('.domain-tab').forEach(btn=>{
+    btn.onclick = ()=>{ setDomain(btn.dataset.key); mathTemplateRerender(); };
   });
+  wireMathBody();
+  renderMath(document.getElementById('mainPanel'));
+}
+
+function mathTemplateRerender(){
+  document.getElementById('pageRoot').innerHTML = mathTemplate();
+  wireMath();
+}
+
+function wireMathBody(){
+  const resetBtn = document.getElementById('resetFiltersBtn');
+  if(resetBtn) resetBtn.onclick = ()=>{
+    const d = currentDomain();
+    state.activeDifficulties = new Set(DIFFICULTIES);
+    state.activeSkills = new Set(d.skills);
+    d.questions.forEach(q=>{ delete state.answered[q.id]; delete state.submitted[q.id]; q._chosen=null; });
+    rebuildOrder(false);
+    renderMathBody();
+  };
+
+  document.querySelectorAll('.chip[data-diff]').forEach(chip=>{
+    chip.onclick = ()=>{
+      const diff = chip.dataset.diff;
+      if(state.activeDifficulties.has(diff)){ if(state.activeDifficulties.size>1) state.activeDifficulties.delete(diff); }
+      else state.activeDifficulties.add(diff);
+      rebuildOrder(true);
+      renderMathBody();
+    };
+  });
+
+  document.querySelectorAll('.skill-item input[data-skill]').forEach(input=>{
+    input.onchange = (e)=>{
+      const s = input.dataset.skill;
+      if(e.target.checked) state.activeSkills.add(s);
+      else { if(state.activeSkills.size>1) state.activeSkills.delete(s); else e.target.checked=true; }
+      rebuildOrder(true);
+      renderMathBody();
+    };
+  });
+
+  document.querySelectorAll('.choice[data-key]').forEach(el=>{
+    el.onclick = ()=>{
+      const qid = state.order[state.idx];
+      if(state.submitted[qid]) return;
+      const q = byId(qid);
+      q._chosen = el.dataset.key;
+      document.querySelectorAll('.choice').forEach(c=>c.classList.toggle('selected', c.dataset.key===el.dataset.key));
+    };
+  });
+
+  const gridInput = document.getElementById('gridInput');
+  if(gridInput){
+    gridInput.addEventListener('input', ()=>{ state.gridValue = gridInput.value; });
+    gridInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') handleCheck(); });
+  }
+
+  const checkBtn = document.getElementById('checkBtn');
+  if(checkBtn) checkBtn.onclick = handleCheck;
+  const nextBtn = document.getElementById('nextBtn');
+  if(nextBtn) nextBtn.onclick = ()=>{ goNext(); };
+  const prevBtn = document.getElementById('prevBtn');
+  if(prevBtn) prevBtn.onclick = ()=>{ goPrev(); };
+  const skipBtn = document.getElementById('skipBtn');
+  if(skipBtn) skipBtn.onclick = ()=>{ goNext(); };
+  const retrySame = document.getElementById('retrySameBtn');
+  if(retrySame) retrySame.onclick = ()=>{ restartSet(false); };
+  const retryShuffle = document.getElementById('retryShuffleBtn');
+  if(retryShuffle) retryShuffle.onclick = ()=>{ restartSet(true); };
+  const goAlgebra = document.getElementById('goAlgebraBtn');
+  if(goAlgebra) goAlgebra.onclick = ()=>{ setDomain('algebra'); mathTemplateRerender(); };
+  const goMath = document.getElementById('goMathBtn');
+  if(goMath) goMath.onclick = ()=>{ state.primaryTab='math'; renderAll(); };
 }
 
 function normalizeNumeric(str){
-  if(str === undefined || str === null) return null;
+  if(str===undefined||str===null) return null;
   str = String(str).trim();
-  if(str === '') return null;
+  if(str==='') return null;
   if(str.includes('/')){
     const parts = str.split('/');
-    if(parts.length===2){
-      const n = parseFloat(parts[0]), d = parseFloat(parts[1]);
-      if(!isNaN(n) && !isNaN(d) && d!==0) return n/d;
-    }
+    if(parts.length===2){ const n=parseFloat(parts[0]), dd=parseFloat(parts[1]); if(!isNaN(n)&&!isNaN(dd)&&dd!==0) return n/dd; }
     return NaN;
   }
   const v = parseFloat(str);
   return isNaN(v) ? NaN : v;
 }
 
-function handleCheck(qid){
+function handleCheck(){
+  const qid = state.order[state.idx];
   const q = byId(qid);
   let chosen, correct;
-
-  if(q.type === 'mcq'){
+  if(q.type==='mcq'){
     chosen = q._chosen || null;
-    if(!chosen){ return; }
+    if(!chosen) return;
     correct = (chosen === q.answer);
   } else {
     const input = document.getElementById('gridInput');
     chosen = input ? input.value.trim() : '';
-    if(chosen === ''){ return; }
+    if(chosen==='') return;
     const userVal = normalizeNumeric(chosen);
     correct = q.accept.some(a=>{
       const accVal = normalizeNumeric(a);
-      if(isNaN(userVal) || isNaN(accVal)) return chosen === a;
+      if(isNaN(userVal)||isNaN(accVal)) return chosen===a;
       return Math.abs(userVal-accVal) < 0.02;
     });
   }
-
   state.answered[qid] = {chosen, correct};
   state.submitted[qid] = true;
   state.gridValue = '';
-  renderMain();
-  renderScore();
+  logAttempt(state.domainKey, q.skill, correct);
+  renderMathBody();
 }
 
-function goNext(){
-  if(state.idx < state.order.length){
-    state.idx++;
-    state.gridValue = '';
-    renderMain();
-  }
-}
-function goPrev(){
-  if(state.idx > 0){
-    state.idx--;
-    state.gridValue = '';
-    renderMain();
-  }
-}
-function goToMath(){
-  state.primaryTab = 'math';
-  renderAll();
-}
+function goNext(){ if(state.idx < state.order.length){ state.idx++; state.gridValue=''; renderMathBody(); } }
+function goPrev(){ if(state.idx > 0){ state.idx--; state.gridValue=''; renderMathBody(); } }
 
 function restartSet(shuffle){
   const filtered = getFilteredQuestions();
   state.order = shuffle ? shuffledIds(filtered) : filtered.map(q=>q.id);
   state.idx = 0;
-  filtered.forEach(q=>{
-    delete state.answered[q.id];
-    delete state.submitted[q.id];
-    q._chosen = null;
-  });
-  renderMain();
-  renderScore();
+  filtered.forEach(q=>{ delete state.answered[q.id]; delete state.submitted[q.id]; q._chosen=null; });
+  renderMathBody();
 }
 
-document.getElementById('resetFiltersBtn').onclick = ()=>{
-  const d = currentDomain();
-  state.activeDifficulties = new Set(DIFFICULTIES);
-  state.activeSkills = new Set(d.skills);
-  d.questions.forEach(q=>{
-    delete state.answered[q.id];
-    delete state.submitted[q.id];
-    q._chosen = null;
-  });
-  rebuildOrder(false);
-  renderSidebar();
-  renderMain();
-};
+function renderMath(container){
+  if(window.renderMathInElement){
+    renderMathInElement(container, {
+      delimiters: [{left:"\\(",right:"\\)",display:false},{left:"\\[",right:"\\]",display:true}],
+      throwOnError:false
+    });
+  }
+}
 
 /* =========================================================
    INIT
    ========================================================= */
-function renderAll(){
-  renderPrimaryTabs();
-  renderDomainTabs();
-  renderSidebar();
-  renderMain();
-}
-
 state.activeSkills = new Set(currentDomain().skills);
 rebuildOrder(false);
 renderAll();
-document.getElementById('versionTag').textContent = SITE_VERSION;
 </script>
 
 </body>
