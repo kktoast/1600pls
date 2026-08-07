@@ -101,9 +101,12 @@
   .home-grid{ display:grid; grid-template-columns: 1.35fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
   @media (max-width: 900px){ .home-grid{ grid-template-columns: 1fr; } }
 
-  .chart-panel{ padding: 22px 24px 20px; }
-  .chart-wrap{ width:100%; overflow-x:auto; }
-  .chart-wrap svg{ width:100%; height:auto; min-width: 460px; }
+  .insights-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
+  @media (max-width: 900px){ .insights-grid{ grid-template-columns: 1fr; } }
+
+  .chart-panel{ padding: 20px 22px 18px; min-width: 0; }
+  .chart-wrap{ width:100%; }
+  .chart-wrap svg{ display:block; width:100%; height:auto; }
 
   .score-form{
     display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;
@@ -959,7 +962,7 @@ function computeRecommendations(){
 }
 
 function buildLineChart(points, minY, maxY, color, emptyMessage){
-  const W=640,H=230,padL=48,padR=16,padT=16,padB=32;
+  const W=520,H=200,padL=42,padR=14,padT=14,padB=28;
   const plotW=W-padL-padR, plotH=H-padT-padB;
   const yFor = v => padT + plotH*(1-(v-minY)/(maxY-minY));
   const xFor = i => points.length<=1 ? padL+plotW/2 : padL + plotW*i/(points.length-1);
@@ -971,7 +974,7 @@ function buildLineChart(points, minY, maxY, color, emptyMessage){
     const val = minY + (maxY-minY)*s/steps;
     const y = yFor(val);
     gridLines += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#E4E0D3" stroke-width="1"/>`;
-    gridLines += `<text x="${padL-8}" y="${y+4}" font-family="IBM Plex Mono" font-size="10" fill="#6B7280" text-anchor="end">${Math.round(val)}</text>`;
+    gridLines += `<text x="${padL-7}" y="${y+4}" font-family="IBM Plex Mono" font-size="11" fill="#6B7280" text-anchor="end">${Math.round(val)}</text>`;
   }
 
   if(points.length === 0){
@@ -995,9 +998,9 @@ function buildLineChart(points, minY, maxY, color, emptyMessage){
   }
   areaPath += ` L ${pts[pts.length-1].x},${pts[pts.length-1].y} L ${pts[pts.length-1].x},${baseline} Z`;
 
-  const dots = pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="${color}" stroke="#fff" stroke-width="1.5"/>`).join('');
-  const labels = pts.map(p=>`<text x="${p.x}" y="${p.y-11}" font-family="IBM Plex Mono" font-size="10" fill="#101A30" text-anchor="middle" font-weight="600">${p.value}</text>`).join('');
-  const xLabels = pts.map((p,i)=> (i%Math.ceil(pts.length/8||1)===0) ? `<text x="${p.x}" y="${H-9}" font-family="IBM Plex Mono" font-size="9" fill="#6B7280" text-anchor="middle">${p.label}</text>` : '').join('');
+  const dots = pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`).join('');
+  const labels = pts.map(p=>`<text x="${p.x}" y="${p.y-10}" font-family="IBM Plex Mono" font-size="11" fill="#101A30" text-anchor="middle" font-weight="600">${p.value}</text>`).join('');
+  const xLabels = pts.map((p,i)=> (i%Math.ceil(pts.length/6||1)===0) ? `<text x="${p.x}" y="${H-8}" font-family="IBM Plex Mono" font-size="10" fill="#6B7280" text-anchor="middle">${p.label}</text>` : '').join('');
 
   return `<svg viewBox="0 0 ${W} ${H}">
     <defs>
@@ -1049,7 +1052,7 @@ function homeTemplate(){
   </div>`;
 
   const insightsGrid = `
-  <div class="home-grid">
+  <div class="insights-grid">
     <div class="panel chart-panel">
       <div class="panel-title">Predicted Math Score</div>
       <div class="chart-wrap">${predictedScoreChartSVG(predictions)}</div>

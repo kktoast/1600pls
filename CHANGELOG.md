@@ -46,3 +46,8 @@ If you're picking this up in a new conversation: this file + the git commit hist
 - New **Predicted Math Score** chart on Home — a 200–800 estimate recalculated after each completed set, weighted by domain accuracy (clearly labeled as a rough estimate, not an official College Board prediction)
 - New **Accuracy Improvement** chart on Home — plots accuracy per completed practice set over time, so trend lines build up the more you practice
 - Refactored the chart renderer into a shared `buildLineChart()` helper used by all three Home charts (Score History, Predicted Score, Improvement) for consistency
+
+## v2.3.1 — Chart layout fit
+- Predicted Score and Improvement charts now sit in their own equal-width two-column grid (previously inherited a lopsided 1.35:1 ratio meant for the score history + recommendations layout)
+- Removed the forced min-width/horizontal-scroll on charts; they now scale cleanly to their panel width at any screen size
+- Slightly more compact chart proportions with larger internal label text so numbers stay legible when panels are narrower
