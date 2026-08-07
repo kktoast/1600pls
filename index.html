@@ -53,8 +53,8 @@
     letter-spacing: -0.01em; color: var(--ink-deep);
     display:flex; align-items:baseline; gap: 2px; cursor:pointer;
   }
-  .wordmark .free{ color: var(--muted); font-weight: 400; }
-  .wordmark .sat{ color: var(--ink-deep); border-bottom: 4px solid var(--gold); padding-bottom: 1px; }
+  .wordmark .free{ color: var(--ink-deep); font-weight: 700; }
+  .wordmark .sat{ color: var(--ink-deep); font-weight: 700; border-bottom: 4px solid var(--gold); padding-bottom: 1px; }
   .tagline{ font-family: var(--mono); font-size: 11.5px; color: var(--muted); margin-top: 4px; }
   .masthead-sub{ font-family: var(--mono); font-size: 12px; color: var(--muted); text-align:right; }
 
@@ -508,13 +508,266 @@ const ALGEBRA_QUESTIONS = [
 }
 ];
 
+const ADV_MATH_QUESTIONS = [
+{ id:"2d1e5eff", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Hard", type:"mcq",
+  question:"\\(y = 2x^2 - 21x + 64\\)<br>\\(y = 3x + a\\)<br><br>In the given system of equations, \\(a\\) is a constant. The graphs of the equations in the given system intersect at exactly one point, \\((x, y)\\), in the \\(xy\\)-plane. What is the value of \\(x\\)?",
+  choices:[{k:"A",t:"\\(-8\\)"},{k:"B",t:"\\(-6\\)"},{k:"C",t:"\\(6\\)"},{k:"D",t:"\\(8\\)"}],
+  answer:"C",
+  rationale:"Subtracting the second equation from the first gives \\(0 = 2x^2 - 24x + 64 - a\\). Since the system has exactly one solution, the discriminant of this quadratic must equal zero: \\((-24)^2 - 4(2)(64-a) = 0\\), which simplifies to \\(8a = -64\\), so \\(a = -8\\). Substituting back gives \\(0 = 2x^2 - 24x + 72 = 2(x-6)^2\\), so \\(x = 6\\)."
+},
+{ id:"005e9982", skill:"Nonlinear functions", difficulty:"Hard", type:"mcq",
+  question:"\\(f(x) = 9{,}000(0.66)^x\\)<br><br>The given function models the number of advertisements a company sent to its clients each year, where \\(x\\) represents the number of years since 1997, and \\(0 \\le x \\le 5\\). If \\(y = f(x)\\) is graphed in the \\(xy\\)-plane, which of the following is the best interpretation of the y-intercept of the graph in this context?",
+  choices:[
+    {k:"A", t:"The minimum estimated number of advertisements the company sent to its clients during the 5 years was 1,708."},
+    {k:"B", t:"The minimum estimated number of advertisements the company sent to its clients during the 5 years was 9,000."},
+    {k:"C", t:"The estimated number of advertisements the company sent to its clients in 1997 was 1,708."},
+    {k:"D", t:"The estimated number of advertisements the company sent to its clients in 1997 was 9,000."}
+  ],
+  answer:"D",
+  rationale:"The y-intercept occurs at \\(x=0\\): \\(f(0) = 9{,}000(0.66)^0 = 9{,}000\\). Since \\(x\\) is years since 1997, \\(x=0\\) corresponds to 1997, so the y-intercept means the estimated number of ads sent in 1997 was 9,000."
+},
+{ id:"9903ff5b", skill:"Nonlinear functions", difficulty:"Medium", type:"mcq",
+  question:"The area of a triangle is 270 square centimeters. The length of the base of the triangle is 12 centimeters greater than the height of the triangle. What is the height, in centimeters, of the triangle?",
+  choices:[{k:"A",t:"\\(15\\)"},{k:"B",t:"\\(18\\)"},{k:"C",t:"\\(30\\)"},{k:"D",t:"\\(36\\)"}],
+  answer:"B",
+  rationale:"Let \\(x\\) be the height, so the base is \\(x+12\\). Area formula: \\(270 = \\frac{1}{2}x(x+12)\\), so \\(540 = x^2+12x\\), giving \\(x^2+12x-540=0\\), which factors as \\((x+30)(x-18)=0\\). Since height must be positive, \\(x=18\\)."
+},
+{ id:"68298043", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Hard", type:"grid",
+  question:"\\(y + k = x + 26\\)<br>\\(y - k = x^2 - 5x\\)<br><br>In the given system of equations, \\(k\\) is a constant. The system has exactly one distinct real solution. What is the value of \\(k\\)?",
+  accept:["17.5","35/2"],
+  rationale:"Subtracting the equations gives \\(2k = -x^2+6x+26\\), or \\(x^2-6x+(2k-26)=0\\). For exactly one real solution, the discriminant must be zero: \\((-6)^2-4(1)(2k-26)=0\\), so \\(-8k+140=0\\), giving \\(k=\\frac{35}{2}=17.5\\)."
+},
+{ id:"65244c8d", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Hard", type:"grid",
+  question:"\\(\\sqrt{(x-2)^2} = \\sqrt{3x+34}\\)<br><br>What is the smallest solution to the given equation?",
+  accept:["-3"],
+  rationale:"Squaring both sides: \\((x-2)^2 = 3x+34\\), which expands to \\(x^2-4x+4=3x+34\\), or \\(x^2-7x-30=0\\). This factors as \\((x-10)(x+3)=0\\), giving \\(x=10\\) or \\(x=-3\\). The smallest solution is \\(-3\\)."
+},
+{ id:"5822c232", skill:"Equivalent expressions", difficulty:"Hard", type:"mcq",
+  question:"Which expression is equivalent to \\(\\dfrac{y+12}{x-8} + \\dfrac{y(x-8)}{x^2y-8xy}\\)?",
+  choices:[
+    {k:"A", t:"\\(\\dfrac{xy+y+4}{x^3y-16x^2y+64xy}\\)"},
+    {k:"B", t:"\\(\\dfrac{xy+9y+12}{x^2y-8xy+x-8}\\)"},
+    {k:"C", t:"\\(\\dfrac{xy^2+13xy-8y}{x^2y-8xy}\\)"},
+    {k:"D", t:"\\(\\dfrac{xy^2+13xy-8y}{x^3y-16x^2y+64xy}\\)"}
+  ],
+  answer:"C",
+  rationale:"Factoring the second denominator gives \\(xy(x-8)\\). Rewriting the first term with this common denominator: \\(\\frac{xy(y+12)}{xy(x-8)} + \\frac{y(x-8)}{xy(x-8)}\\). Adding numerators: \\(\\frac{xy^2+12xy+xy-8y}{x^2y-8xy} = \\frac{xy^2+13xy-8y}{x^2y-8xy}\\)."
+},
+{ id:"8e3878fd", skill:"Nonlinear functions", difficulty:"Easy", type:"mcq",
+  question:"\\(P(t) = 1{,}800(1.02)^t\\)<br><br>The function \\(P\\) gives the estimated number of marine mammals in a certain area, where \\(t\\) is the number of years since a study began. What is the best interpretation of \\(P(0) = 1{,}800\\) in this context?",
+  choices:[
+    {k:"A", t:"The estimated number of marine mammals in the area was 102 when the study began."},
+    {k:"B", t:"The estimated number of marine mammals in the area was 1,800 when the study began."},
+    {k:"C", t:"The estimated number of marine mammals in the area increased by 102 each year during the study."},
+    {k:"D", t:"The estimated number of marine mammals in the area increased by 1,800 each year during the study."}
+  ],
+  answer:"B",
+  rationale:"\\(P(0)\\) is the value of \\(P(t)\\) when \\(t=0\\), i.e. when the study began. So \\(P(0)=1{,}800\\) means the estimated number of marine mammals was 1,800 when the study began."
+},
+{ id:"9c086e5a", skill:"Nonlinear functions", difficulty:"Medium", type:"mcq",
+  question:"The table shows three values of \\(x\\) and their corresponding values of \\(y\\) for the equation \\(y = 4(2)^x + 3\\). In the table, \\(a\\) is a constant. What is the value of \\(a\\)?",
+  figure:`<table><tr><th>x</th><td>1</td><td>2</td><td>3</td></tr><tr><th>y</th><td>11</td><td>19</td><td>a</td></tr></table>`,
+  choices:[{k:"A",t:"\\(67\\)"},{k:"B",t:"\\(35\\)"},{k:"C",t:"\\(32\\)"},{k:"D",t:"\\(27\\)"}],
+  answer:"B",
+  rationale:"When \\(x=3\\), \\(y=a\\). Substituting: \\(a = 4(2)^3+3 = 4(8)+3 = 35\\)."
+},
+{ id:"4782fd69", skill:"Nonlinear functions", difficulty:"Medium", type:"mcq",
+  question:"The function \\(f(x) = 206(1.034)^x\\) models the value, in dollars, of a certain bank account by the end of each year from 1957 through 1972, where \\(x\\) is the number of years after 1957. Which of the following is the best interpretation of \"\\(f(5)\\) is approximately equal to 243\" in this context?",
+  choices:[
+    {k:"A", t:"The value of the bank account is estimated to be approximately 5 dollars greater in 1962 than in 1957."},
+    {k:"B", t:"The value of the bank account is estimated to be approximately 243 dollars in 1962."},
+    {k:"C", t:"The value, in dollars, of the bank account is estimated to be approximately 5 times greater in 1962 than in 1957."},
+    {k:"D", t:"The value of the bank account is estimated to increase by approximately 243 dollars every 5 years between 1957 and 1972."}
+  ],
+  answer:"B",
+  rationale:"\\(f(5)\\) is the value of the account 5 years after 1957, i.e. in 1962. So \"\\(f(5) \\approx 243\\)\" means the account value is estimated to be approximately 243 dollars in 1962."
+},
+{ id:"d08a5d15", skill:"Nonlinear functions", difficulty:"Easy", type:"mcq",
+  question:"The function \\(f\\) is defined by \\(f(x) = 5x^2\\). What is the value of \\(f(8)\\)?",
+  choices:[{k:"A",t:"\\(40\\)"},{k:"B",t:"\\(50\\)"},{k:"C",t:"\\(80\\)"},{k:"D",t:"\\(320\\)"}],
+  answer:"D",
+  rationale:"\\(f(8) = 5(8)^2 = 5(64) = 320\\)."
+},
+{ id:"cf0fc6ba", skill:"Equivalent expressions", difficulty:"Easy", type:"mcq",
+  question:"Which expression is equivalent to \\(13x^2 - 7x^2\\)?",
+  choices:[{k:"A",t:"\\(-91x^2\\)"},{k:"B",t:"\\(6x^2\\)"},{k:"C",t:"\\(20x^2\\)"},{k:"D",t:"\\(40x^2\\)"}],
+  answer:"B",
+  rationale:"Since both terms share a common factor of \\(x^2\\), the expression can be rewritten as \\((13-7)x^2 = 6x^2\\)."
+},
+{ id:"696e199b", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Medium", type:"mcq",
+  question:"\\(\\dfrac{(x+9)(x-9)}{x+9} = 7\\)<br><br>What is the solution to the given equation?",
+  choices:[{k:"A",t:"\\(7\\)"},{k:"B",t:"\\(9\\)"},{k:"C",t:"\\(16\\)"},{k:"D",t:"\\(63\\)"}],
+  answer:"C",
+  rationale:"Since \\(x+9\\) is a common factor in numerator and denominator, the equation reduces to \\(x-9=7\\), so \\(x=16\\)."
+},
+{ id:"c9f2f07d", skill:"Nonlinear functions", difficulty:"Medium", type:"mcq",
+  question:"\\(f(x) = (x+6)(x+5)(x-4)\\)<br><br>The function \\(f\\) is given. Which table of values represents \\(y = f(x) - 3\\)?",
+  figure:`<div style="display:flex; gap:22px; flex-wrap:wrap; justify-content:center;"><div><b style="font-family:var(--mono); font-size:12px;">A</b><table><tr><th>x</th><th>y</th></tr><tr><td>-6</td><td>-9</td></tr><tr><td>-5</td><td>-8</td></tr><tr><td>4</td><td>1</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">B</b><table><tr><th>x</th><th>y</th></tr><tr><td>-6</td><td>-3</td></tr><tr><td>-5</td><td>-3</td></tr><tr><td>4</td><td>-3</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">C</b><table><tr><th>x</th><th>y</th></tr><tr><td>-6</td><td>-3</td></tr><tr><td>-5</td><td>-2</td></tr><tr><td>4</td><td>7</td></tr></table></div><div><b style="font-family:var(--mono); font-size:12px;">D</b><table><tr><th>x</th><th>y</th></tr><tr><td>-6</td><td>3</td></tr><tr><td>-5</td><td>3</td></tr><tr><td>4</td><td>3</td></tr></table></div></div>`,
+  choices:[{k:"A",t:"Table A"},{k:"B",t:"Table B"},{k:"C",t:"Table C"},{k:"D",t:"Table D"}],
+  answer:"B",
+  rationale:"Substituting \\(x=-6,-5,4\\) into \\(f(x)\\), each factor \\((x+6)\\), \\((x+5)\\), or \\((x-4)\\) becomes zero, so \\(f(x)=0\\) at each of these x-values, giving \\(y=f(x)-3=-3\\) every time — matching Table B."
+},
+{ id:"6fbfbe0d", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Medium", type:"mcq",
+  question:"\\(x = 8a(b+9)\\)<br><br>The given equation relates the positive numbers \\(a\\), \\(b\\), and \\(x\\). Which equation correctly expresses \\(a\\) in terms of \\(b\\) and \\(x\\)?",
+  choices:[
+    {k:"A", t:"\\(a = \\dfrac{x}{8} - (b+9)\\)"},
+    {k:"B", t:"\\(a = \\dfrac{x}{8(b+9)}\\)"},
+    {k:"C", t:"\\(a = \\dfrac{8(b+9)}{x}\\)"},
+    {k:"D", t:"\\(a = 8x(b+9)\\)"}
+  ],
+  answer:"B",
+  rationale:"Dividing both sides of \\(x=8a(b+9)\\) by \\(8(b+9)\\) (nonzero since \\(b\\) is positive) gives \\(a = \\frac{x}{8(b+9)}\\)."
+},
+{ id:"fe81a236", skill:"Nonlinear functions", difficulty:"Hard", type:"grid",
+  question:"\\(g(x) = x(x-2)(x+6)^2\\)<br><br>The function \\(g\\) is defined by the given equation. The value of \\(g(7-w)\\) is 0, where \\(w\\) is a constant. What is the sum of all possible values of \\(w\\)?",
+  accept:["25"],
+  rationale:"Substituting \\(7-w\\) for \\(x\\): \\(g(7-w) = (7-w)(5-w)(13-w)^2 = 0\\). Each factor set to zero gives \\(w=7\\), \\(w=5\\), or \\(w=13\\) (double root). Sum: \\(7+5+13=25\\)."
+},
+{ id:"54bf74ea", skill:"Nonlinear functions", difficulty:"Hard", type:"mcq",
+  question:"\\(p(t) = 90{,}000(1.06)^t\\)<br><br>The given function models the population of Lowell \\(t\\) years after a census. Which of the following functions best models the population of Lowell \\(m\\) months after the census?",
+  choices:[
+    {k:"A", t:"\\(r(m) = \\dfrac{90{,}000}{12}(1.06)^m\\)"},
+    {k:"B", t:"\\(r(m) = 90{,}000\\left(\\dfrac{1.06}{12}\\right)^m\\)"},
+    {k:"C", t:"\\(r(m) = 90{,}000\\left(\\dfrac{1.06}{12}\\right)^{\\frac{m}{12}}\\)"},
+    {k:"D", t:"\\(r(m) = 90{,}000(1.06)^{\\frac{m}{12}}\\)"}
+  ],
+  answer:"D",
+  rationale:"Since there are 12 months in a year, \\(m\\) months after the census equals \\(\\frac{m}{12}\\) years after. Substituting \\(\\frac{m}{12}\\) for \\(t\\) gives \\(r(m) = 90{,}000(1.06)^{m/12}\\)."
+},
+{ id:"5bfaf155", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Medium", type:"mcq",
+  question:"\\(p = 20 + \\dfrac{16}{n}\\)<br><br>The given equation relates the numbers \\(p\\) and \\(n\\), where \\(n\\) is not equal to 0 and \\(p > 20\\). Which equation correctly expresses \\(n\\) in terms of \\(p\\)?",
+  choices:[
+    {k:"A", t:"\\(n = \\dfrac{p-20}{16}\\)"},
+    {k:"B", t:"\\(n = \\dfrac{p}{16} + 20\\)"},
+    {k:"C", t:"\\(n = \\dfrac{p}{16} - 20\\)"},
+    {k:"D", t:"\\(n = \\dfrac{16}{p-20}\\)"}
+  ],
+  answer:"D",
+  rationale:"Subtracting 20 from both sides gives \\(p - 20 = \\frac{16}{n}\\). Since \\(p>20\\), \\(p-20 \\ne 0\\), so multiplying both sides by \\(n\\) and dividing by \\((p-20)\\) gives \\(n = \\frac{16}{p-20}\\)."
+},
+{ id:"67373f12", skill:"Nonlinear functions", difficulty:"Medium", type:"mcq",
+  question:"On April 1, there were 233 views of an advertisement posted on a website. Every 2 days after April 1, the number of views of the advertisement had increased by 70% of the number of views 2 days earlier. The function \\(f\\) gives the predicted number of views \\(x\\) days after April 1. Which equation defines \\(f\\)?",
+  choices:[
+    {k:"A", t:"\\(f(x) = 233(0.70)^{\\frac{x}{2}}\\)"},
+    {k:"B", t:"\\(f(x) = 233(0.70)^{2x}\\)"},
+    {k:"C", t:"\\(f(x) = 233(1.70)^{\\frac{x}{2}}\\)"},
+    {k:"D", t:"\\(f(x) = 233(1.70)^{2x}\\)"}
+  ],
+  answer:"C",
+  rationale:"This is exponential growth of the form \\(f(x)=a(1+\\frac{r}{100})^{x/c}\\) with \\(a=233\\), \\(r=70\\), \\(c=2\\): \\(f(x) = 233(1.70)^{x/2}\\)."
+},
+{ id:"8217606b", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Hard", type:"grid",
+  question:"\\(64x^2 - (16a+4b)x + ab = 0\\)<br><br>In the given equation, \\(a\\) and \\(b\\) are positive constants. The sum of the solutions to the given equation is \\(k(4a+b)\\), where \\(k\\) is a constant. What is the value of \\(k\\)?",
+  accept:["0.0625","1/16",".0625"],
+  rationale:"Letting \\(p,q\\) be the solutions, \\(64(x-p)(x-q)=0\\) expands to \\(64x^2-64(p+q)x+64pq=0\\). Matching coefficients: \\(-64(p+q) = -(16a+4b)\\), so \\(p+q = \\frac{1}{16}(4a+b)\\). Thus \\(k = \\frac{1}{16} = 0.0625\\)."
+},
+{ id:"a51ff0d6", skill:"Nonlinear functions", difficulty:"Hard", type:"grid",
+  question:"\\(f(x) = (x+7)^2 + 4\\)<br><br>The function \\(f\\) is defined by the given equation. For what value of \\(x\\) does \\(f(x)\\) reach its minimum?",
+  accept:["-7"],
+  rationale:"For \\(f(x)=a(x-h)^2+k\\) with \\(a>0\\), the minimum occurs at \\(x=h\\). Here \\(h=-7\\), so the minimum occurs at \\(x=-7\\)."
+},
+{ id:"0e4cd7da", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Hard", type:"mcq",
+  question:"Which quadratic equation has no real solutions?",
+  choices:[
+    {k:"A", t:"\\(x^2+14x-49=0\\)"},
+    {k:"B", t:"\\(x^2-14x+49=0\\)"},
+    {k:"C", t:"\\(5x^2-14x-49=0\\)"},
+    {k:"D", t:"\\(5x^2-14x+49=0\\)"}
+  ],
+  answer:"D",
+  rationale:"For choice D: discriminant \\(=(-14)^2-4(5)(49) = 196-980=-784\\), which is less than zero, so no real solutions. All other choices have non-negative discriminants."
+},
+{ id:"4443355f", skill:"Equivalent expressions", difficulty:"Hard", type:"mcq",
+  question:"The expression \\(4x^2+bx-45\\), where \\(b\\) is a constant, can be rewritten as \\((hx+k)(x+j)\\), where \\(h\\), \\(k\\), and \\(j\\) are integer constants. Which of the following must be an integer?",
+  choices:[
+    {k:"A", t:"\\(\\dfrac{b}{h}\\)"},
+    {k:"B", t:"\\(\\dfrac{b}{k}\\)"},
+    {k:"C", t:"\\(\\dfrac{45}{h}\\)"},
+    {k:"D", t:"\\(\\dfrac{45}{k}\\)"}
+  ],
+  answer:"D",
+  rationale:"Expanding \\((hx+k)(x+j) = hx^2+(hj+k)x+kj\\). Matching constant terms: \\(kj=-45\\), so \\(j = \\frac{-45}{k}\\). Since \\(j\\) is an integer, \\(\\frac{45}{k}\\) must also be an integer."
+},
+{ id:"427f0eea", skill:"Nonlinear functions", difficulty:"Hard", type:"mcq",
+  question:"The function \\(f\\) gives the product of a number, \\(x\\), and a number that is 91 more than \\(x\\). Which equation defines \\(f\\)?",
+  choices:[
+    {k:"A", t:"\\(f(x) = x^2+x+91\\)"},
+    {k:"B", t:"\\(f(x) = x^2+91\\)"},
+    {k:"C", t:"\\(f(x) = x^2+91x\\)"},
+    {k:"D", t:"\\(f(x) = x^2+91x+91\\)"}
+  ],
+  answer:"C",
+  rationale:"A number 91 more than \\(x\\) is \\(x+91\\). The product is \\(f(x) = x(x+91) = x^2+91x\\)."
+},
+{ id:"45abd366", skill:"Equivalent expressions", difficulty:"Medium", type:"mcq",
+  question:"If \\(a = 4k+5r\\) and \\(b = 7k-12r+3\\), which expression is equivalent to \\(a-b\\)?",
+  choices:[
+    {k:"A", t:"\\(-3k+17r+3\\)"},
+    {k:"B", t:"\\(-3k+17r-3\\)"},
+    {k:"C", t:"\\(-3k-7r-3\\)"},
+    {k:"D", t:"\\(-3k-7r+3\\)"}
+  ],
+  answer:"B",
+  rationale:"\\(a-b = (4k+5r)-(7k-12r+3) = 4k+5r-7k+12r-3 = -3k+17r-3\\)."
+},
+{ id:"a1397504", skill:"Equivalent expressions", difficulty:"Hard", type:"grid",
+  question:"\\(0.36x^2+0.63x+1.17\\)<br><br>The given expression can be rewritten as \\(a(4x^2+7x+13)\\), where \\(a\\) is a constant. What is the value of \\(a\\)?",
+  accept:["0.09","9/100",".09"],
+  rationale:"Expanding \\(a(4x^2+7x+13) = 4ax^2+7ax+13a\\). Matching coefficients with the original: \\(0.36=4a\\), so \\(a=0.09\\)."
+},
+{ id:"536832c0", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Hard", type:"grid",
+  question:"In the \\(xy\\)-plane, a line with equation \\(2y = 4.5\\) intersects a parabola at exactly one point. If the parabola has equation \\(y = -4x^2+bx\\), where \\(b\\) is a positive constant, what is the value of \\(b\\)?",
+  accept:["6"],
+  rationale:"The line simplifies to \\(y=2.25\\). Substituting into the parabola: \\(2.25 = -4x^2+bx\\), or \\(4x^2-bx+2.25=0\\). For exactly one solution, the discriminant is zero: \\(b^2-4(4)(2.25)=0\\), so \\(b^2=36\\), giving \\(b=\\pm6\\). Since \\(b\\) is positive, \\(b=6\\)."
+},
+{ id:"90990b9a", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Easy", type:"mcq",
+  question:"\\(x = 49\\)<br>\\(y = \\sqrt{x}+9\\)<br><br>The graphs of the given equations intersect at the point \\((x,y)\\) in the \\(xy\\)-plane. What is the value of \\(y\\)?",
+  choices:[{k:"A",t:"\\(16\\)"},{k:"B",t:"\\(40\\)"},{k:"C",t:"\\(81\\)"},{k:"D",t:"\\(130\\)"}],
+  answer:"A",
+  rationale:"Substituting \\(x=49\\): \\(y = \\sqrt{49}+9 = 7+9=16\\)."
+},
+{ id:"72bf9318", skill:"Nonlinear functions", difficulty:"Medium", type:"mcq",
+  question:"The function \\(f\\) is defined by \\(f(x) = 7x^3\\). In the \\(xy\\)-plane, the graph of \\(y=g(x)\\) is the result of shifting the graph of \\(y=f(x)\\) down 2 units. Which equation defines function \\(g\\)?",
+  choices:[
+    {k:"A", t:"\\(g(x) = \\dfrac{7}{2}x^3\\)"},
+    {k:"B", t:"\\(g(x) = 7x^{\\frac{3}{2}}\\)"},
+    {k:"C", t:"\\(g(x) = 7x^3+2\\)"},
+    {k:"D", t:"\\(g(x) = 7x^3-2\\)"}
+  ],
+  answer:"D",
+  rationale:"Shifting a graph down \\(k\\) units gives \\(g(x)=f(x)-k\\). With \\(f(x)=7x^3\\) and \\(k=2\\): \\(g(x)=7x^3-2\\)."
+},
+{ id:"32dc74a4", skill:"Nonlinear functions", difficulty:"Hard", type:"mcq",
+  question:"A right rectangular prism has a height of 9 inches. The length of the prism's base is \\(x\\) inches, which is 7 inches more than the width of the prism's base. Which function \\(V\\) gives the volume of the prism, in cubic inches, in terms of the length of the prism's base?",
+  choices:[
+    {k:"A", t:"\\(V(x) = x(x+9)(x+7)\\)"},
+    {k:"B", t:"\\(V(x) = x(x+9)(x-7)\\)"},
+    {k:"C", t:"\\(V(x) = 9x(x+7)\\)"},
+    {k:"D", t:"\\(V(x) = 9x(x-7)\\)"}
+  ],
+  answer:"D",
+  rationale:"Since the length \\(x\\) is 7 more than the width, the width is \\(x-7\\). Volume = base area × height = \\(x(x-7)(9) = 9x(x-7)\\)."
+},
+{ id:"097bd3c9", skill:"Nonlinear equations in one variable and systems of equations in two variables", difficulty:"Easy", type:"mcq",
+  question:"\\(y - 57 = px\\)<br><br>The given equation relates the positive numbers \\(p\\), \\(x\\), and \\(y\\). Which equation correctly expresses \\(y\\) in terms of \\(p\\) and \\(x\\)?",
+  choices:[
+    {k:"A", t:"\\(y = 57x+p\\)"},
+    {k:"B", t:"\\(y = px+57\\)"},
+    {k:"C", t:"\\(y = 57px\\)"},
+    {k:"D", t:"\\(y = \\dfrac{px}{57}\\)"}
+  ],
+  answer:"B",
+  rationale:"Adding 57 to both sides of \\(y-57=px\\) gives \\(y=px+57\\)."
+}
+];
+
 const DOMAINS = [
   { key:"algebra", label:"Algebra",
     skills:["Linear equations in one variable","Linear equations in two variables","Linear functions","Systems of two linear equations in two variables","Linear inequalities in one or two variables"],
     weight: 28, questions: ALGEBRA_QUESTIONS },
   { key:"advanced-math", label:"Advanced Math",
     skills:["Equivalent expressions","Nonlinear equations in one variable and systems of equations in two variables","Nonlinear functions"],
-    weight: 32, questions: [] },
+    weight: 32, questions: ADV_MATH_QUESTIONS },
   { key:"psda", label:"Problem-Solving & Data Analysis",
     skills:["Ratios, rates, proportional relationships, and units","Percentages","One-variable data: distributions and measures of center and spread","Two-variable data: models and scatterplots","Probability and conditional probability","Inference from sample statistics and margin of error","Evaluating statistical claims: observational studies and experiments"],
     weight: 20, questions: [] },

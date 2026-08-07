@@ -35,3 +35,8 @@ If you're picking this up in a new conversation: this file + the git commit hist
 ## v2.1.0 — Rebrand to 1600pls
 - Renamed the site from freeSAT to **1600pls**, matching the repo/URL
 - Updated wordmark, page title, tagline, and footer accordingly
+
+## v2.2.0 — Advanced Math questions live, wordmark update
+- Added 30 real Advanced Math questions (Equivalent expressions, Nonlinear equations/systems, Nonlinear functions) — pulled and hand-verified from source PDF since equations render as images in text extraction
+- Advanced Math domain is no longer "Coming Soon" — fully playable with filters, scoring, and recommendations like Algebra
+- Wordmark: both "1600" and "pls" now bold; "pls" keeps the gold underline accent
