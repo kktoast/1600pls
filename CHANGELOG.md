@@ -40,3 +40,9 @@ If you're picking this up in a new conversation: this file + the git commit hist
 - Added 30 real Advanced Math questions (Equivalent expressions, Nonlinear equations/systems, Nonlinear functions) — pulled and hand-verified from source PDF since equations render as images in text extraction
 - Advanced Math domain is no longer "Coming Soon" — fully playable with filters, scoring, and recommendations like Algebra
 - Wordmark: both "1600" and "pls" now bold; "pls" keeps the gold underline accent
+
+## v2.3.0 — Predicted score & improvement graphs
+- Every completed practice set now logs a session record (accuracy) and a predicted-score snapshot to the browser's local storage
+- New **Predicted Math Score** chart on Home — a 200–800 estimate recalculated after each completed set, weighted by domain accuracy (clearly labeled as a rough estimate, not an official College Board prediction)
+- New **Accuracy Improvement** chart on Home — plots accuracy per completed practice set over time, so trend lines build up the more you practice
+- Refactored the chart renderer into a shared `buildLineChart()` helper used by all three Home charts (Score History, Predicted Score, Improvement) for consistency
