@@ -31,3 +31,7 @@ Repo: https://github.com/kktoast/1600pls
 
 ### For future chats
 If you're picking this up in a new conversation: this file + the git commit history at the repo link above is the full source of truth for what's been built. Point a new Claude session at the repo (or paste a scoped access token) and it can clone it to see exactly where things stand before making changes.
+
+## v2.1.0 — Rebrand to 1600pls
+- Renamed the site from freeSAT to **1600pls**, matching the repo/URL
+- Updated wordmark, page title, tagline, and footer accordingly
