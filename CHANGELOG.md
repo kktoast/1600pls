@@ -51,3 +51,11 @@ If you're picking this up in a new conversation: this file + the git commit hist
 - Predicted Score and Improvement charts now sit in their own equal-width two-column grid (previously inherited a lopsided 1.35:1 ratio meant for the score history + recommendations layout)
 - Removed the forced min-width/horizontal-scroll on charts; they now scale cleanly to their panel width at any screen size
 - Slightly more compact chart proportions with larger internal label text so numbers stay legible when panels are narrower
+
+## v2.4.0 — Practice Hub: full tests + guided skill selection
+- Math tab now opens on a **Practice Hub** instead of dropping straight into questions
+- **Full Practice Test** — generates a randomized, mixed-domain set every time, sampled proportionally to each domain's real SAT weighting (the exact same weights used for the Predicted Score chart on Home). Choose a length (10/20/30 questions) and see a live preview of the domain breakdown before starting.
+- **Practice by Skill** — pick a domain and specific skills/difficulty first, see exactly how many questions match, then start — no more landing straight on Question 1 with no context.
+- Fixed a scoring bug: answer logging now correctly attributes each question to its actual source domain (important once tests mix domains) instead of assuming the currently active domain tab.
+- Session and prediction logging now labels full-test completions distinctly from single-skill sets.
+- Summary screen (after finishing any set) now offers "Back to hub" alongside retry/shuffle options.

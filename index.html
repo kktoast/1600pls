@@ -134,6 +134,27 @@
   .btn.ghost{ border-color: var(--line); color: var(--muted); }
   .btn.ghost:hover:not(:disabled){ background: var(--incorrect); border-color:var(--incorrect); color:#fff; }
   .btn.small{ padding:6px 10px; font-size:10.5px; }
+  .btn.nav-back{ border-color: var(--line); color: var(--muted); background:none; }
+  .btn.nav-back:hover:not(:disabled){ background: var(--ink-deep); border-color: var(--ink-deep); color: var(--paper-raised); }
+
+  .mode-breadcrumb{ display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .mode-label{ font-family: var(--mono); font-size: 11.5px; color: var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+
+  .hub-intro{ margin-bottom: 22px; }
+  .hub-intro .big{ font-family: var(--serif); font-weight:700; font-size: 25px; margin-bottom:6px; }
+  .hub-intro p{ color: var(--muted); font-size: 14px; margin:0; max-width: 560px; }
+
+  .hub-card{ padding: 22px 22px 20px; }
+  .hub-desc{ font-size: 13px; color: var(--muted); line-height:1.55; margin: 0 0 16px; }
+  .hub-domain-tabs{ margin-bottom: 14px; }
+
+  .test-preview{ border-top: 1px solid var(--line); margin-top: 14px; padding-top: 12px; }
+  .test-preview-row{ display:flex; justify-content:space-between; font-family: var(--mono); font-size: 12.5px; color: var(--ink); padding: 4px 0; }
+  .test-preview-row span:last-child{ color: var(--gold); font-weight:600; }
+
+  .hub-start-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; border-top:1px solid var(--line); margin-top:14px; padding-top:14px; }
+  .hub-match-count{ font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .hub-empty-note{ font-size: 13px; color: var(--muted); padding: 10px 0; }
 
   .score-table-wrap{ margin-top: 14px; max-height: 160px; overflow-y:auto; }
   .score-table{ width:100%; border-collapse:collapse; font-size: 12.5px; }
@@ -836,9 +857,10 @@ function recordSessionCompletion(){
   const answeredIds = state.order.filter(id=>state.answered[id] && state.submitted[id]);
   const correct = answeredIds.filter(id=>state.answered[id].correct).length;
   const accuracy = answeredIds.length ? correct/answeredIds.length : 0;
+  const label = state.mathMode === 'full' ? 'full-test' : state.domainKey;
 
   const sessions = loadSessions();
-  sessions.push({ts: Date.now(), domainKey: state.domainKey, correct, answered: answeredIds.length, total, accuracy});
+  sessions.push({ts: Date.now(), domainKey: label, mode: state.mathMode, correct, answered: answeredIds.length, total, accuracy});
   saveSessions(sessions);
 
   const predictions = loadPredictions();
@@ -851,7 +873,10 @@ function recordSessionCompletion(){
    ========================================================= */
 let state = {
   primaryTab: "home",       // "home" | "math" | "rw"
+  mathMode: null,            // null (hub) | "full" | "skill"
   domainKey: "algebra",
+  hubDomainKey: "algebra",
+  testSize: 20,
   activeDifficulties: new Set(DIFFICULTIES),
   activeSkills: new Set(),
   order: [],
@@ -864,6 +889,10 @@ let state = {
 function currentDomain(){ return DOMAINS.find(d=>d.key===state.domainKey); }
 function allQuestionsById(){ return DOMAINS.flatMap(d=>d.questions); }
 function byId(id){ return allQuestionsById().find(q=>q.id===id); }
+function domainKeyForQuestion(qid){
+  const d = DOMAINS.find(dm=>dm.questions.some(q=>q.id===qid));
+  return d ? d.key : null;
+}
 
 function setDomain(key, skillFilter){
   state.domainKey = key;
@@ -872,6 +901,61 @@ function setDomain(key, skillFilter){
   state.activeDifficulties = new Set(DIFFICULTIES);
   state.idx = 0;
   rebuildOrder(false);
+}
+
+function setHubDomain(key){
+  state.hubDomainKey = key;
+  const d = DOMAINS.find(x=>x.key===key);
+  state.activeSkills = new Set(d.skills);
+  state.activeDifficulties = new Set(DIFFICULTIES);
+}
+
+function startSkillSession(){
+  state.domainKey = state.hubDomainKey;
+  state.mathMode = 'skill';
+  state.idx = 0;
+  rebuildOrder(false);
+  mathTemplateRerender();
+}
+
+function allocateTestCounts(size){
+  const domainsWithContent = DOMAINS.filter(d=>d.questions.length>0);
+  if(domainsWithContent.length===0) return [];
+  const totalWeight = domainsWithContent.reduce((s,d)=>s+d.weight,0);
+  const raw = domainsWithContent.map(d => size*d.weight/totalWeight);
+  let allocation = domainsWithContent.map((d,i)=>({domain:d, count: Math.floor(raw[i])}));
+  let used = allocation.reduce((s,a)=>s+a.count,0);
+  let remainder = size - used;
+  const fracOrder = raw.map((v,i)=>({i, frac: v-Math.floor(v)})).sort((a,b)=>b.frac-a.frac);
+  let idx=0;
+  while(remainder>0 && idx<fracOrder.length){
+    allocation[fracOrder[idx].i].count++;
+    remainder--; idx++;
+  }
+  allocation.forEach(a=>{ a.count = Math.min(a.count, a.domain.questions.length); });
+  return allocation;
+}
+
+function generateFullTestOrder(size){
+  const allocation = allocateTestCounts(size);
+  let ids = [];
+  allocation.forEach(a=>{
+    const shuffled = shuffledIds(a.domain.questions);
+    ids = ids.concat(shuffled.slice(0, a.count));
+  });
+  for(let i=ids.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [ids[i],ids[j]]=[ids[j],ids[i]]; }
+  return ids;
+}
+
+function startFullTest(){
+  state.mathMode = 'full';
+  state.order = generateFullTestOrder(state.testSize);
+  state.idx = 0;
+  state.order.forEach(id=>{
+    delete state.answered[id]; delete state.submitted[id];
+    const q = byId(id); if(q) q._chosen = null;
+  });
+  mathTemplateRerender();
 }
 
 function shuffledIds(list){
@@ -1161,6 +1245,7 @@ function wireHome(){
   document.querySelectorAll('.rec-card [data-skill]').forEach(btn=>{
     btn.onclick = ()=>{
       state.primaryTab = 'math';
+      state.mathMode = 'skill';
       setDomain(btn.dataset.domain, btn.dataset.skill);
       renderAll();
     };
@@ -1183,7 +1268,22 @@ function rwTemplate(){
    MATH PAGE
    ========================================================= */
 function mathTemplate(){
-  const d = currentDomain();
+  if(state.mathMode === null){
+    return mathHubTemplate();
+  }
+  if(state.mathMode === 'full'){
+    return `
+      <div class="mode-breadcrumb">
+        <button class="btn small nav-back" id="exitToHubBtn">← Back to practice hub</button>
+        <span class="mode-label">Full Practice Test</span>
+      </div>
+      <div class="layout" id="mathLayout">
+        <aside class="sidebar" id="sidebarWrap">${fullTestSidebarTemplate()}</aside>
+        <main class="main"><div class="panel" id="mainPanel">${fullTestMainPanelTemplate()}</div></main>
+      </div>
+    `;
+  }
+  // skill mode
   let domainTabsHtml = `<div class="domain-tabs">`;
   DOMAINS.forEach(dm=>{
     const isEmpty = dm.questions.length === 0;
@@ -1192,10 +1292,74 @@ function mathTemplate(){
   domainTabsHtml += `</div>`;
 
   return `
+    <div class="mode-breadcrumb">
+      <button class="btn small nav-back" id="exitToHubBtn">← Back to practice hub</button>
+      <span class="mode-label">Practice by Skill</span>
+    </div>
     ${domainTabsHtml}
     <div class="layout" id="mathLayout">
       <aside class="sidebar" id="sidebarWrap">${sidebarTemplate()}</aside>
       <main class="main"><div class="panel" id="mainPanel">${mainPanelTemplate()}</div></main>
+    </div>
+  `;
+}
+
+function mathHubTemplate(){
+  const allocation = allocateTestCounts(state.testSize);
+  const previewRows = allocation.length ? allocation.map(a=>`<div class="test-preview-row"><span>${a.domain.label}</span><span>${a.count} question${a.count===1?'':'s'}</span></div>`).join('') : `<div class="hub-empty-note">No Math content loaded yet.</div>`;
+  const sizeChips = [10,20,30].map(n=>`<div class="chip ${state.testSize===n?'active':''}" data-size="${n}">${n}</div>`).join('');
+
+  const hubDomainTabsHtml = DOMAINS.map(d=>`<button class="domain-tab ${d.key===state.hubDomainKey?'active':''} ${d.questions.length===0?'empty':''}" data-hubdomain="${d.key}">${d.label} <span class="dcount">${d.questions.length===0?'Soon':d.questions.length}</span></button>`).join('');
+
+  return `
+    <div class="hub-intro">
+      <div class="big">Choose how you want to practice.</div>
+      <p>Take a full mixed test that mirrors real SAT weighting, or drill a specific skill until you've got it down.</p>
+    </div>
+    <div class="home-grid">
+      <div class="panel hub-card">
+        <div class="panel-title">Full Practice Test</div>
+        <p class="hub-desc">Randomized every time, pulling proportionally from each Math domain — the same weighting used for your Predicted Score on Home.</p>
+        <div class="filter-group">
+          <div class="filter-label">Length</div>
+          <div class="chip-row">${sizeChips}</div>
+        </div>
+        <div class="test-preview">${previewRows}</div>
+        <button class="btn primary" id="startFullTestBtn" style="width:100%; margin-top:14px;" ${allocation.length===0?'disabled':''}>Generate Test →</button>
+      </div>
+      <div class="panel hub-card">
+        <div class="panel-title">Practice by Skill</div>
+        <p class="hub-desc">Pick a domain and the exact skills to drill — you'll see what's selected before you start.</p>
+        <div class="domain-tabs hub-domain-tabs">${hubDomainTabsHtml}</div>
+        ${hubSkillPickerTemplate()}
+      </div>
+    </div>
+  `;
+}
+
+function hubSkillPickerTemplate(){
+  const d = DOMAINS.find(x=>x.key===state.hubDomainKey);
+  if(d.questions.length === 0){
+    return `<div class="hub-empty-note">This domain doesn't have questions loaded yet. Check back soon, or pick a different domain above.</div>`;
+  }
+  const diffChips = DIFFICULTIES.map(diff=>`<div class="chip diff-${diff.toLowerCase()} ${state.activeDifficulties.has(diff)?'active':''}" data-hubdiff="${diff}">${diff}</div>`).join('');
+  const skillRows = d.skills.map(s=>{
+    const count = d.questions.filter(q=>q.skill===s).length;
+    const disabled = count===0;
+    return `<label class="skill-item ${disabled?'disabled':''}">
+      <input type="checkbox" data-hubskill="${s}" ${state.activeSkills.has(s)?'checked':''} ${disabled?'disabled':''}/>
+      <span>${s}</span><span class="count">${count}</span>
+    </label>`;
+  }).join('');
+  const matchCount = d.questions.filter(q=>state.activeDifficulties.has(q.difficulty) && state.activeSkills.has(q.skill)).length;
+  return `
+    <div class="filter-group">
+      <div class="chip-row">${diffChips}</div>
+    </div>
+    <div class="skill-list">${skillRows}</div>
+    <div class="hub-start-row">
+      <span class="hub-match-count">${matchCount} question${matchCount===1?'':'s'} selected</span>
+      <button class="btn primary" id="startSkillBtn" ${matchCount===0?'disabled':''}>Start Set →</button>
     </div>
   `;
 }
@@ -1249,27 +1413,35 @@ function sidebarTemplate(){
   `;
 }
 
-function mainPanelTemplate(){
-  const d = currentDomain();
-  const filtered = getFilteredQuestions();
+function fullTestSidebarTemplate(){
+  const total = state.order.length;
+  const answeredIds = state.order.filter(id=>state.answered[id] && state.submitted[id]);
+  const correctCount = answeredIds.filter(id=>state.answered[id].correct).length;
+  const pct = answeredIds.length ? Math.round((correctCount/answeredIds.length)*100) : null;
+  const circumference = 301.6;
+  const frac = pct===null ? 0 : pct/100;
+  const dashoffset = circumference * (1-frac);
 
-  if(d.questions.length === 0){
-    return `<div class="construction-state">
-      <div class="construction-mark">Coming Soon</div>
-      <div class="big">${d.label} questions are on the way</div>
-      <p>This domain is wired up and ready — questions just haven't been loaded in yet. Here's what's planned:</p>
-      <div class="construction-skills">${d.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</div>
-      <div style="margin-top:26px;"><button class="btn primary" id="goAlgebraBtn">Practice Algebra instead →</button></div>
-    </div>`;
-  }
+  return `
+    <div class="panel">
+      <div class="panel-title">Test Progress</div>
+      <div class="score-ring-wrap">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle class="score-ring-bg" cx="48" cy="48" r="42"></circle>
+          <circle class="score-ring-fg" cx="48" cy="48" r="42" stroke-dasharray="${circumference}" stroke-dashoffset="${dashoffset}"></circle>
+        </svg>
+        <div class="score-ring-label"><div class="num">${pct===null?'—':pct+'%'}</div><div class="lbl">Correct</div></div>
+      </div>
+      <div class="score-stats">
+        <div>Answered<br><b>${answeredIds.length}</b></div>
+        <div>Correct<br><b>${correctCount}</b></div>
+        <div>Total<br><b>${total}</b></div>
+      </div>
+    </div>
+  `;
+}
 
-  if(filtered.length === 0){
-    return `<div class="empty-state"><div class="big">No questions match these filters</div><p>Select at least one skill and difficulty from the left to see practice questions.</p></div>`;
-  }
-
-  if(state.order.length === 0) rebuildOrder(false);
-  if(state.idx >= state.order.length) return summaryTemplate(filtered);
-
+function questionCardHtml(){
   const qid = state.order[state.idx];
   const q = byId(qid);
   const submitted = !!state.submitted[qid];
@@ -1335,9 +1507,44 @@ function mainPanelTemplate(){
   return html;
 }
 
+function mainPanelTemplate(){
+  const d = currentDomain();
+
+  if(d.questions.length === 0){
+    return `<div class="construction-state">
+      <div class="construction-mark">Coming Soon</div>
+      <div class="big">${d.label} questions are on the way</div>
+      <p>This domain is wired up and ready — questions just haven't been loaded in yet. Here's what's planned:</p>
+      <div class="construction-skills">${d.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</div>
+      <div style="margin-top:26px;"><button class="btn primary" id="goAlgebraBtn">Practice Algebra instead →</button></div>
+    </div>`;
+  }
+
+  const filtered = getFilteredQuestions();
+  if(filtered.length === 0){
+    return `<div class="empty-state"><div class="big">No questions match these filters</div><p>Select at least one skill and difficulty from the left to see practice questions.</p></div>`;
+  }
+
+  if(state.order.length === 0) rebuildOrder(false);
+  if(state.idx >= state.order.length) return summaryTemplate(filtered);
+
+  return questionCardHtml();
+}
+
+function fullTestMainPanelTemplate(){
+  if(state.order.length === 0){
+    return `<div class="empty-state"><div class="big">No test generated</div><p>Head back to the practice hub to generate a full test.</p></div>`;
+  }
+  if(state.idx >= state.order.length){
+    const setQuestions = state.order.map(id=>byId(id));
+    return summaryTemplate(setQuestions);
+  }
+  return questionCardHtml();
+}
+
 function summaryTemplate(filtered){
   const filteredIds = new Set(filtered.map(q=>q.id));
-  const answeredIds = Object.keys(state.answered).filter(id=>filteredIds.has(id));
+  const answeredIds = state.order.filter(id=>filteredIds.has(id) && state.answered[id]);
   const correctCount = answeredIds.filter(id=>state.answered[id].correct).length;
   const bySkill = {};
   filtered.forEach(q=>{
@@ -1352,30 +1559,72 @@ function summaryTemplate(filtered){
     if(d.answered>0){ const pct=Math.round((d.correct/d.answered)*100); pillClass = pct>=80?'good':(pct>=50?'mid':'bad'); pillText = pct+'%'; }
     rows += `<tr><td>${s}</td><td>${d.answered}/${d.total}</td><td>${d.correct}</td><td><span class="pill ${pillClass}">${pillText}</span></td></tr>`;
   });
+  const title = state.mathMode==='full' ? 'Practice test complete' : 'Set complete';
   return `<div class="summary-state">
-    <div class="big">Set complete — ${correctCount}/${answeredIds.length||0} correct</div>
-    <p>You've gone through every question in the current filter. Review your breakdown below, or restart to try again.</p>
+    <div class="big">${title} — ${correctCount}/${answeredIds.length||0} correct</div>
+    <p>Review your breakdown below — logged to your Home tab's predicted score and improvement charts. Retry, or head back to the hub for something new.</p>
     <table class="summary-table"><tr><th>Skill</th><th>Answered</th><th>Correct</th><th>Accuracy</th></tr>${rows}</table>
-    <div style="margin-top:22px; display:flex; gap:10px; justify-content:center;">
+    <div style="margin-top:22px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
       <button class="btn primary" id="retrySameBtn">Retry same set</button>
       <button class="btn gold" id="retryShuffleBtn">Shuffle &amp; retry</button>
+      <button class="btn ghost" id="backToHubBtn">← Back to hub</button>
     </div>
   </div>`;
 }
 
 function renderMathBody(){
-  document.getElementById('sidebarWrap').innerHTML = sidebarTemplate();
-  document.getElementById('mainPanel').innerHTML = mainPanelTemplate();
+  const sidebarEl = document.getElementById('sidebarWrap');
+  if(sidebarEl) sidebarEl.innerHTML = state.mathMode==='full' ? fullTestSidebarTemplate() : sidebarTemplate();
+  document.getElementById('mainPanel').innerHTML = state.mathMode==='full' ? fullTestMainPanelTemplate() : mainPanelTemplate();
   renderMath(document.getElementById('mainPanel'));
   wireMathBody();
 }
 
 function wireMath(){
-  document.querySelectorAll('.domain-tab').forEach(btn=>{
-    btn.onclick = ()=>{ setDomain(btn.dataset.key); mathTemplateRerender(); };
-  });
+  if(state.mathMode === null){
+    wireHub();
+    return;
+  }
+  const exitBtn = document.getElementById('exitToHubBtn');
+  if(exitBtn) exitBtn.onclick = ()=>{ state.mathMode = null; mathTemplateRerender(); };
+
+  if(state.mathMode === 'skill'){
+    document.querySelectorAll('.domain-tabs:not(.hub-domain-tabs) .domain-tab').forEach(btn=>{
+      btn.onclick = ()=>{ setDomain(btn.dataset.key); mathTemplateRerender(); };
+    });
+  }
   wireMathBody();
   renderMath(document.getElementById('mainPanel'));
+}
+
+function wireHub(){
+  document.querySelectorAll('.hub-domain-tabs .domain-tab').forEach(btn=>{
+    btn.onclick = ()=>{ setHubDomain(btn.dataset.hubdomain); mathTemplateRerender(); };
+  });
+  document.querySelectorAll('.chip[data-hubdiff]').forEach(chip=>{
+    chip.onclick = ()=>{
+      const diff = chip.dataset.hubdiff;
+      if(state.activeDifficulties.has(diff)){ if(state.activeDifficulties.size>1) state.activeDifficulties.delete(diff); }
+      else state.activeDifficulties.add(diff);
+      mathTemplateRerender();
+    };
+  });
+  document.querySelectorAll('.skill-item input[data-hubskill]').forEach(input=>{
+    input.onchange = (e)=>{
+      const s = input.dataset.hubskill;
+      if(e.target.checked) state.activeSkills.add(s);
+      else { if(state.activeSkills.size>1) state.activeSkills.delete(s); else e.target.checked=true; }
+      mathTemplateRerender();
+    };
+  });
+  const startSkillBtn = document.getElementById('startSkillBtn');
+  if(startSkillBtn) startSkillBtn.onclick = startSkillSession;
+
+  document.querySelectorAll('.chip[data-size]').forEach(chip=>{
+    chip.onclick = ()=>{ state.testSize = parseInt(chip.dataset.size,10); mathTemplateRerender(); };
+  });
+  const startFullBtn = document.getElementById('startFullTestBtn');
+  if(startFullBtn) startFullBtn.onclick = startFullTest;
 }
 
 function mathTemplateRerender(){
@@ -1442,6 +1691,8 @@ function wireMathBody(){
   if(retrySame) retrySame.onclick = ()=>{ restartSet(false); };
   const retryShuffle = document.getElementById('retryShuffleBtn');
   if(retryShuffle) retryShuffle.onclick = ()=>{ restartSet(true); };
+  const backToHub = document.getElementById('backToHubBtn');
+  if(backToHub) backToHub.onclick = ()=>{ state.mathMode = null; mathTemplateRerender(); };
   const goAlgebra = document.getElementById('goAlgebraBtn');
   if(goAlgebra) goAlgebra.onclick = ()=>{ setDomain('algebra'); mathTemplateRerender(); };
   const goMath = document.getElementById('goMathBtn');
@@ -1483,7 +1734,7 @@ function handleCheck(){
   state.answered[qid] = {chosen, correct};
   state.submitted[qid] = true;
   state.gridValue = '';
-  logAttempt(state.domainKey, q.skill, correct);
+  logAttempt(domainKeyForQuestion(qid), q.skill, correct);
   renderMathBody();
 }
 
@@ -1500,10 +1751,10 @@ function goNext(){
 function goPrev(){ if(state.idx > 0){ state.idx--; state.gridValue=''; renderMathBody(); } }
 
 function restartSet(shuffle){
-  const filtered = getFilteredQuestions();
-  state.order = shuffle ? shuffledIds(filtered) : filtered.map(q=>q.id);
+  const current = state.order.map(id=>byId(id));
+  state.order = shuffle ? shuffledIds(current) : current.map(q=>q.id);
   state.idx = 0;
-  filtered.forEach(q=>{ delete state.answered[q.id]; delete state.submitted[q.id]; q._chosen=null; });
+  current.forEach(q=>{ delete state.answered[q.id]; delete state.submitted[q.id]; q._chosen=null; });
   renderMathBody();
 }
 
