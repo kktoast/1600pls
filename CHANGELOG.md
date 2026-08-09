@@ -59,3 +59,12 @@ If you're picking this up in a new conversation: this file + the git commit hist
 - Fixed a scoring bug: answer logging now correctly attributes each question to its actual source domain (important once tests mix domains) instead of assuming the currently active domain tab.
 - Session and prediction logging now labels full-test completions distinctly from single-skill sets.
 - Summary screen (after finishing any set) now offers "Back to hub" alongside retry/shuffle options.
+
+## v2.5.0 — Animations and micro-interactions
+- Buttons, chips, domain tabs, skill rows, and choice bubbles now have tactile "weight" — a quick scale-down on click/press across the whole site
+- Checking an answer now gives real feedback: correct answers pop with a soft green glow, incorrect ones give a quick shake — plays once right when you check, not on every revisit
+- The rationale panel fades in smoothly each time it appears
+- Primary nav (Home / Math / Reading & Writing) now slides directionally — moving right slides content in from the right, moving left (going back) slides in from the left
+- Practice Hub → session transitions slide forward; "Back to hub" slides back — matches the natural forward/backward feel of the flow
+- Next/Previous question navigation slides the question card in the corresponding direction
+- Respects `prefers-reduced-motion` — all animations collapse to near-instant for anyone with that OS/browser setting enabled
