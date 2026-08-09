@@ -105,6 +105,20 @@
   .insights-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
   @media (max-width: 900px){ .insights-grid{ grid-template-columns: 1fr; } }
 
+  .daily-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
+  @media (max-width: 900px){ .daily-grid{ grid-template-columns: 1fr; } }
+  .daily-card{ padding: 22px 24px 22px; border-color: var(--gold); border-width: 1.5px; }
+  .daily-card-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .daily-date{ font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .streak-badge{
+    font-family: var(--mono); font-size: 11px; font-weight:600; color: var(--gold);
+    background: var(--gold-soft); padding: 4px 10px; border-radius: 20px; white-space:nowrap;
+  }
+  .daily-done-note{ font-family: var(--mono); font-size: 11.5px; color: var(--muted); text-align:center; margin-top: 14px; padding-top:14px; border-top: 1px dashed var(--line); }
+  .daily-card-soon{ border-color: var(--line); border-width:1px; opacity: 0.88; display:flex; flex-direction:column; }
+  .daily-soon-body{ flex:1; display:flex; align-items:center; margin-top: 18px; }
+  .daily-soon-body p{ color: var(--muted); font-size: 13.5px; line-height:1.6; margin:0; }
+
   .chart-panel{ padding: 20px 22px 18px; min-width: 0; }
   .chart-wrap{ width:100%; }
   .chart-wrap svg{ display:block; width:100%; height:auto; }
@@ -851,6 +865,7 @@ const LS_SCORES = "freesat_score_history";
 const LS_LOG = "freesat_attempt_log";
 const LS_SESSIONS = "freesat_session_log";
 const LS_PREDICTIONS = "freesat_prediction_log";
+const LS_DAILY = "freesat_daily_answers";
 
 function loadScores(){
   try{ return JSON.parse(localStorage.getItem(LS_SCORES)) || []; } catch(e){ return []; }
@@ -1113,6 +1128,153 @@ function computeRecommendations(){
   return recs.slice(0,5);
 }
 
+/* =========================================================
+   DAILY QUESTION
+   ========================================================= */
+function loadDailyAnswers(){
+  try{ return JSON.parse(localStorage.getItem(LS_DAILY)) || {}; } catch(e){ return {}; }
+}
+function saveDailyAnswers(obj){ try{ localStorage.setItem(LS_DAILY, JSON.stringify(obj)); }catch(e){} }
+
+function todayKey(){ return new Date().toISOString().slice(0,10); }
+
+function dateSeed(dateStr){
+  let hash = 0;
+  for(let i=0;i<dateStr.length;i++){ hash = (hash*31 + dateStr.charCodeAt(i)) >>> 0; }
+  return hash;
+}
+
+function getDailyMathQuestion(){
+  const pool = DOMAINS.filter(d=>d.questions.length>0).flatMap(d=>d.questions);
+  if(pool.length === 0) return null;
+  const dateStr = todayKey();
+  const idx = dateSeed(dateStr) % pool.length;
+  return { question: pool[idx], dateStr };
+}
+
+function computeDailyStreak(){
+  const answers = loadDailyAnswers();
+  let streak = 0;
+  let d = new Date();
+  while(true){
+    const key = d.toISOString().slice(0,10);
+    if(answers[key]){ streak++; d.setDate(d.getDate()-1); }
+    else break;
+  }
+  return streak;
+}
+
+function dailyMathCardTemplate(){
+  const daily = getDailyMathQuestion();
+  if(!daily){
+    return `<div class="panel daily-card">
+      <div class="panel-title">Daily Question — Math</div>
+      <div class="hub-empty-note">No Math questions loaded yet.</div>
+    </div>`;
+  }
+  const q = daily.question, dateStr = daily.dateStr;
+  const answers = loadDailyAnswers();
+  const existing = answers[dateStr];
+  const streak = computeDailyStreak();
+
+  let html = `
+    <div class="panel daily-card">
+      <div class="daily-card-top">
+        <div class="panel-title" style="margin-bottom:0;">Daily Question — Math</div>
+        ${streak>0 ? `<span class="streak-badge">🔥 ${streak} day${streak===1?'':'s'}</span>` : ''}
+      </div>
+      <div class="daily-date">${dateStr}</div>
+      <div class="qcard-meta" style="margin:10px 0 14px;">
+        <span class="tag difficulty-${q.difficulty}">${q.difficulty}</span>
+        <span class="tag">${q.skill}</span>
+      </div>
+      <div class="qbody" style="font-size:16.5px; margin-bottom:16px;">${q.question}</div>
+      ${q.figure ? `<div class="qfigure">${q.figure}</div>` : ''}
+  `;
+
+  if(existing){
+    if(q.type === 'mcq'){
+      html += `<div class="choices">`;
+      q.choices.forEach(c=>{
+        let cls = 'choice disabled';
+        if(c.k===q.answer) cls += ' correct';
+        else if(existing.chosen===c.k) cls += ' incorrect';
+        html += `<div class="${cls}"><div class="bubble">${c.k}</div><div class="choice-text">${c.t}</div></div>`;
+      });
+      html += `</div>`;
+    } else {
+      const inputCls = 'gridin-input ' + (existing.correct ? 'correct' : 'incorrect');
+      html += `<div class="gridin-wrap"><div class="gridin-label">Your answer</div><input type="text" class="${inputCls}" value="${existing.chosen}" disabled/></div>`;
+    }
+    html += `<div class="rationale ${existing.correct?'correct-panel':'incorrect-panel'}">
+      <div class="rationale-head ${existing.correct?'correct-text':'incorrect-text'}">${existing.correct?"Correct — here's why":"Not quite — here's why"}</div>
+      ${q.type==='mcq' ? `<div style="margin-bottom:8px;">Correct answer: <b>${q.answer}</b></div>` : `<div style="margin-bottom:8px;">Correct answer: <b>${q.accept[0]}</b></div>`}
+      <div>${q.rationale}</div>
+    </div>`;
+    html += `<div class="daily-done-note">You've completed today's question — a new one lands tomorrow.</div>`;
+  } else {
+    if(q.type === 'mcq'){
+      html += `<div class="choices">`;
+      q.choices.forEach(c=>{
+        html += `<div class="choice" data-dailykey="${c.k}"><div class="bubble">${c.k}</div><div class="choice-text">${c.t}</div></div>`;
+      });
+      html += `</div>`;
+    } else {
+      html += `<div class="gridin-wrap">
+        <div class="gridin-label">Enter your answer</div>
+        <input type="text" class="gridin-input" id="dailyGridInput" placeholder="e.g. 3/2 or 1.5" autocomplete="off"/>
+        <div class="gridin-hint">Fractions (3/2), decimals (1.5), and negative signs are all accepted.</div>
+      </div>`;
+    }
+    html += `<button class="btn primary" id="checkDailyBtn" style="width:100%; margin-top:4px;">Check Answer</button>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function dailyRWCardTemplate(){
+  return `
+    <div class="panel daily-card daily-card-soon">
+      <div class="daily-card-top">
+        <div class="panel-title" style="margin-bottom:0;">Daily Question — Reading &amp; Writing</div>
+        <span class="soon-badge">Under Construction</span>
+      </div>
+      <div class="daily-soon-body">
+        <p>Once Reading &amp; Writing question banks are loaded, you'll get a fresh daily pick here too — same one for everyone, changes every day.</p>
+      </div>
+    </div>
+  `;
+}
+
+function handleDailyCheck(){
+  const daily = getDailyMathQuestion();
+  if(!daily) return;
+  const q = daily.question, dateStr = daily.dateStr;
+  let chosen, correct;
+  if(q.type === 'mcq'){
+    chosen = state._dailyChosen || null;
+    if(!chosen) return;
+    correct = (chosen === q.answer);
+  } else {
+    const input = document.getElementById('dailyGridInput');
+    chosen = input ? input.value.trim() : '';
+    if(chosen === '') return;
+    const userVal = normalizeNumeric(chosen);
+    correct = q.accept.some(a=>{
+      const accVal = normalizeNumeric(a);
+      if(isNaN(userVal)||isNaN(accVal)) return chosen===a;
+      return Math.abs(userVal-accVal) < 0.02;
+    });
+  }
+  const answers = loadDailyAnswers();
+  answers[dateStr] = {qid:q.id, chosen, correct, ts:Date.now()};
+  saveDailyAnswers(answers);
+  logAttempt(domainKeyForQuestion(q.id), q.skill, correct);
+  state._dailyChosen = null;
+  renderAll('fade');
+}
+
 function buildLineChart(points, minY, maxY, color, emptyMessage){
   const W=520,H=200,padL=42,padR=14,padT=14,padB=28;
   const plotW=W-padL-padR, plotH=H-padT-padB;
@@ -1246,11 +1408,19 @@ function homeTemplate(){
     </div>`;
   }).join('') : `<div class="rec-empty">Add questions to a Math domain to start getting recommendations.</div>`;
 
+  const dailyGrid = `
+  <div class="daily-grid">
+    ${dailyMathCardTemplate()}
+    ${dailyRWCardTemplate()}
+  </div>`;
+
   return `
     <div class="home-hero">
       <div class="big">Welcome back.</div>
       <p>Log your real SAT or practice test scores to track progress over time, and get pointed at the skills worth practicing next.</p>
     </div>
+
+    ${dailyGrid}
 
     ${statRow}
 
@@ -1319,6 +1489,20 @@ function wireHome(){
       renderAll(dir);
     };
   });
+
+  document.querySelectorAll('.daily-card .choice[data-dailykey]').forEach(el=>{
+    el.onclick = ()=>{
+      state._dailyChosen = el.dataset.dailykey;
+      document.querySelectorAll('.daily-card .choice').forEach(c=>{
+        c.classList.toggle('selected', c.dataset.dailykey===el.dataset.dailykey);
+      });
+      el.classList.remove('bubble-pop');
+      void el.offsetWidth;
+      el.classList.add('bubble-pop');
+    };
+  });
+  const checkDailyBtn = document.getElementById('checkDailyBtn');
+  if(checkDailyBtn) checkDailyBtn.onclick = handleDailyCheck;
 }
 
 /* =========================================================

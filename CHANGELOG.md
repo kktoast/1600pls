@@ -68,3 +68,10 @@ If you're picking this up in a new conversation: this file + the git commit hist
 - Practice Hub → session transitions slide forward; "Back to hub" slides back — matches the natural forward/backward feel of the flow
 - Next/Previous question navigation slides the question card in the corresponding direction
 - Respects `prefers-reduced-motion` — all animations collapse to near-instant for anyone with that OS/browser setting enabled
+
+## v2.6.0 — Daily Question
+- New **Daily Question** section at the top of Home, one card for Math (live) and one for Reading & Writing (placeholder, matches the "Under Construction" styling used elsewhere)
+- The Math daily question is **deterministic by date** — everyone sees the same question on the same day, seeded from the date string, drawn from all currently loaded Math domains
+- Answer it right on the Home page — once submitted, it locks in for the day (shown with the rationale and your locked answer), and a fresh question appears automatically tomorrow
+- Tracks a **daily streak** (🔥 consecutive days answered) stored locally in the browser
+- Daily answers feed into the same lifetime accuracy stats and skill-recommendation engine as regular practice — one more rep counted toward your recommendations
