@@ -105,8 +105,18 @@
   .insights-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
   @media (max-width: 900px){ .insights-grid{ grid-template-columns: 1fr; } }
 
-  .daily-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
+  .daily-grid{ display:grid; grid-template-columns: 1.15fr 1fr; gap: 20px; align-items:start; margin-bottom: 22px; }
   @media (max-width: 900px){ .daily-grid{ grid-template-columns: 1fr; } }
+  .daily-side{ display:flex; flex-direction:column; gap: 20px; min-width:0; align-self:stretch; }
+  .daily-side .stat-row{ grid-template-columns: 1fr 1fr; margin-bottom: 0; flex:1; }
+  .daily-side .stat-card{ display:flex; flex-direction:column; justify-content:center; }
+  .rec-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap: 14px; align-items:stretch; }
+  @media (max-width: 1050px){ .rec-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px){ .rec-grid{ grid-template-columns: 1fr; } }
+  .rec-grid .rec-card{ margin-bottom: 0; display:flex; flex-direction:column; }
+  .rec-grid .rec-card .rec-meta{ margin-top:auto; }
+  .rec-panel{ margin-bottom: 22px; }
+  .score-panel{ margin-bottom: 22px; }
   .daily-card{ padding: 22px 24px 22px; border-color: var(--gold); border-width: 1.5px; }
   .daily-card-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
   .daily-date{ font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 3px; }
@@ -186,7 +196,7 @@
 
   .rec-panel{ padding: 22px 22px 20px; }
   .rec-card{
-    border: 1px solid var(--line); padding: 14px 16px; margin-bottom: 12px; background: var(--paper);
+    border: 1px solid var(--line); padding: 12px 14px; margin-bottom: 10px; background: var(--paper);
   }
   .rec-card:last-child{ margin-bottom:0; }
   .rec-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px; }
@@ -1266,7 +1276,7 @@ const DOMAINS = [
     weight: 24, questions: GEO_TRIG_QUESTIONS }
 ];
 const DIFFICULTIES = ["Easy","Medium","Hard"];
-const SITE_VERSION = "2.7.0";
+const SITE_VERSION = "2.7.1";
 
 /* =========================================================
    LOCAL STORAGE HELPERS
@@ -1482,6 +1492,7 @@ function renderAll(direction){
   animateInto(root, html, direction);
   if(state.primaryTab === 'home') wireHome();
   else if(state.primaryTab === 'math') wireMath();
+  renderMath(root);
   updateHeaderMeta();
 }
 
@@ -1535,7 +1546,7 @@ function computeRecommendations(){
     });
   });
   recs.sort((a,b)=> b.potential - a.potential);
-  return recs.slice(0,5);
+  return recs.slice(0,4);
 }
 
 /* =========================================================
@@ -1821,7 +1832,10 @@ function homeTemplate(){
   const dailyGrid = `
   <div class="daily-grid">
     ${dailyMathCardTemplate()}
-    ${dailyRWCardTemplate()}
+    <div class="daily-side">
+      ${dailyRWCardTemplate()}
+      ${statRow}
+    </div>
   </div>`;
 
   return `
@@ -1832,30 +1846,26 @@ function homeTemplate(){
 
     ${dailyGrid}
 
-    ${statRow}
-
     ${insightsGrid}
 
-    <div class="home-grid">
-      <div class="panel chart-panel">
-        <div class="panel-title">Score History</div>
-        <div class="chart-wrap">${scoreChartSVG(scores)}</div>
-        <div class="score-form">
-          <div class="field"><label>Date</label><input type="date" id="scoreDate"/></div>
-          <div class="field"><label>Math (200–800)</label><input type="number" id="scoreMath" min="200" max="800" step="10" placeholder="600"/></div>
-          <div class="field"><label>R&amp;W (200–800)</label><input type="number" id="scoreRW" min="200" max="800" step="10" placeholder="600"/></div>
-          <button class="btn primary" id="addScoreBtn">Add Score</button>
-        </div>
-        <div class="score-table-wrap">
-          ${scores.length ? `<table class="score-table"><tr><th>Date</th><th>Math</th><th>R&amp;W</th><th>Total</th><th></th></tr>${scoreTableRows}</table>` : `<div class="score-table-empty">No scores logged yet. Add your most recent practice test or official SAT score above.</div>`}
-        </div>
-      </div>
+    <div class="panel rec-panel">
+      <div class="panel-title">Recommended Practice</div>
+      <div class="panel-sub">${anyMathContent ? 'Ranked by estimated score impact — skills you haven\'t tried or have missed most are prioritized.' : 'Recommendations activate once Math domains have questions loaded.'}</div>
+      <div class="rec-grid">${recCards}</div>
+      <div class="rec-disclaimer">Point estimates are a rough, motivational guide based on skill weighting and your accuracy — not an official College Board score predictor.</div>
+    </div>
 
-      <div class="panel rec-panel">
-        <div class="panel-title">Recommended Practice</div>
-        <div class="panel-sub">${anyMathContent ? 'Ranked by estimated score impact — skills you haven\'t tried or have missed most are prioritized.' : 'Recommendations activate once Math domains have questions loaded.'}</div>
-        ${recCards}
-        <div class="rec-disclaimer">Point estimates are a rough, motivational guide based on skill weighting and your accuracy — not an official College Board score predictor.</div>
+    <div class="panel chart-panel score-panel">
+      <div class="panel-title">Score History</div>
+      <div class="chart-wrap">${scoreChartSVG(scores)}</div>
+      <div class="score-form">
+        <div class="field"><label>Date</label><input type="date" id="scoreDate"/></div>
+        <div class="field"><label>Math (200–800)</label><input type="number" id="scoreMath" min="200" max="800" step="10" placeholder="600"/></div>
+        <div class="field"><label>R&amp;W (200–800)</label><input type="number" id="scoreRW" min="200" max="800" step="10" placeholder="600"/></div>
+        <button class="btn primary" id="addScoreBtn">Add Score</button>
+      </div>
+      <div class="score-table-wrap">
+        ${scores.length ? `<table class="score-table"><tr><th>Date</th><th>Math</th><th>R&amp;W</th><th>Total</th><th></th></tr>${scoreTableRows}</table>` : `<div class="score-table-empty">No scores logged yet. Add your most recent practice test or official SAT score above.</div>`}
       </div>
     </div>
   `;

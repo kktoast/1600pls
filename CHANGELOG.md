@@ -82,3 +82,9 @@ If you're picking this up in a new conversation: this file + the git commit hist
 - Geometry diagrams and scatterplots recreated as inline SVG; data tables as styled HTML tables — all theme-aware via currentColor
 - Both domains now fully playable: filters, full-test sampling, predicted score, recommendations, and daily question all include them automatically
 - Source PDFs kept locally (mathquestions/), not committed
+
+## v2.7.1 — Home layout polish + KaTeX fix
+- Fixed: math on the Home tab (Daily Question) rendered as raw \(...\) markup — KaTeX now runs on every tab render, not just Math
+- Home layout rebalanced: the four stat cards now sit beside the Daily Question (under the R&W placeholder) instead of leaving a large empty column; they stretch to match the daily card's height
+- Recommended Practice is now a full-width row of 4 compact cards (was a tall 5-card stack squeezed next to Score History)
+- Score History panel now spans full width below recommendations
