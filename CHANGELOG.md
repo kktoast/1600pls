@@ -75,3 +75,10 @@ If you're picking this up in a new conversation: this file + the git commit hist
 - Answer it right on the Home page — once submitted, it locks in for the day (shown with the rationale and your locked answer), and a fresh question appears automatically tomorrow
 - Tracks a **daily streak** (🔥 consecutive days answered) stored locally in the browser
 - Daily answers feed into the same lifetime accuracy stats and skill-recommendation engine as regular practice — one more rep counted toward your recommendations
+
+## v2.7.0 — All four Math domains live (120 questions)
+- Added 30 real **Geometry & Trigonometry** questions (Area and volume, Lines/angles/triangles, Right triangles and trig, Circles) — transcribed and hand-verified from source PDF page images, since equations render as images in text extraction
+- Added 30 real **Problem-Solving & Data Analysis** questions (Ratios/rates/units, Percentages, One-variable data, Two-variable data/scatterplots, Probability, Margin of error)
+- Geometry diagrams and scatterplots recreated as inline SVG; data tables as styled HTML tables — all theme-aware via currentColor
+- Both domains now fully playable: filters, full-test sampling, predicted score, recommendations, and daily question all include them automatically
+- Source PDFs kept locally (mathquestions/), not committed
